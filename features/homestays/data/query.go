@@ -1,7 +1,7 @@
 package data
 
 import (
-	homestay "myTaskApp/features/homestays"
+	homestay "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays"
 
 	"gorm.io/gorm"
 )
