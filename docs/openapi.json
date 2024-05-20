@@ -1,0 +1,552 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "myTaskApp API",
+        "version": "1.0.0",
+        "description": "documentation for my task app API",
+        "termsOfService": "https://mytaskapp.id",
+        "contact": {
+            "name": "Eza Bintang Ramadhan",
+            "email": "ezabintangramadhan@gmail.com"
+        },
+        "license": {
+            "name": "APACHE 2.0"
+        }
+    },
+    "externalDocs": {
+        "url": "https://mytaskapp.id",
+        "description": "Full documentation about myTaskApp"
+    },
+    "servers": [
+        {
+            "description": "SwaggerHub API Auto Mocking",
+            "url": "https://virtserver.swaggerhub.com/ezabintangramadhan/myTaskApp-api/1.0.0"
+        },
+        {
+            "description": "myTaskApp API server",
+            "url": "https://{environment}.api.mytaskapp.id",
+            "variables": {
+                "environment": {
+                    "default": "dev",
+                    "enum": [
+                        "dev",
+                        "qa",
+                        "prod"
+                    ]
+                }
+            }
+        }
+    ],
+    "paths": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "login user",
+                "description": "",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "description": "Username user",
+                                        "example": "user123"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "passwword user",
+                                        "example": "passwword123"
+                                    }
+                                },
+                                "required": [
+                                    "username",
+                                    "passwword"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Login"
+                                },
+                                "examples": {
+                                    "success": {
+                                        "description": "Login successful",
+                                        "value":{
+                                            "id": 1,
+                                            "name":"user123",
+                                            "token":"agaTwefhwoefh12314"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description": "Login failed",
+                        "content": {
+                            "application/json":{
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string"
+                                        },
+                                        "description":{
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "examples": {
+                                    "failed": {
+                                        "description": "Login failed",
+                                        "value":{
+                                            "status":"login failed",
+                                            "description":"wrong username/password"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "description": "user not found. please input correctly.",
+                    "content": {
+                    "application/json":{
+                        "schema":{
+                            "type": "object",
+                            "properties": {
+                                "message":{
+                                    "type": "string"
+                                }
+                            },
+                            "example":{
+                                "message":"user not found. please input correctly."
+                            }
+                        }
+                    }
+                }
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
+        "/users": {
+            "post":{
+                "tags": ["users"],
+                "summary": "create new user",
+                "description": "",
+                "requestBody":{
+                    "required": true,
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/InsertUser"
+                            },
+                            "example": {
+                                "name":"tukimin",
+                                "email":"tukimin@mail.com",
+                                "password":"tukimin123",
+                                "phone":"08220321",
+                                "role":"user"
+                            }
+                        }
+                    }
+                },
+                "parameters": [],
+                "responses": {
+                    "201":{
+                       "$ref": "#/components/responses/201"
+                    },
+                    "400":{
+                        "$ref": "#/components/responses/400"
+                    },
+                    "404":{
+                        "$ref": "#/components/responses/404"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            },
+            "get": {
+                "security": [
+                {
+                    "JWTAuth":[]
+                }
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "see profile user",
+                "description": "see profile user by token id",
+                "parameters": [
+                    {                        
+                        "$ref": "#/components/parameters/idUser"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success get profile user",
+                        "content": {
+                            "application/json":{
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name":{
+                                            "type": "string",
+                                            "example": "tukimin"
+                                        },
+                                        "email":{
+                                            "type": "string",
+                                            "example":"tukimin@mail.com"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Update existing user",
+                "description": "update existing user by id",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/idUser"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUser"
+                            },
+                            "examples": {
+                                "updateUser":{
+                                    "value":{
+                                        "name":"Eza",
+                                        "email":"eza@mail.com",
+                                        "password":"eza123",
+                                        "phone":"0822232"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful update",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/components/responses/200"
+                                },
+                                "examples":{
+                                    "successfulUpdate":{
+                                        "value":{
+                                            "message":"success update user"
+                                        }
+                                    }
+                               }
+                           }
+                        }
+                    },
+                    "400":{
+                        "description": "wrong input",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/components/responses/400"
+                                },
+                                "examples":{
+                                    "failedUpdate":{
+                                        "value":{
+                                            "message":"failed update. input your changes correctly"
+                                        }
+                                    }
+                               }
+                            }
+                        }
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            },
+            "delete":{
+                "security": [
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "delete existing user",
+                "description": "delete existing user by id",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/idUser"
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "successful delete user",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/components/responses/200"
+                                },
+                                "examples":{
+                                    "successfulUpdate":{
+                                        "value":{
+                                            "message":"success delete user"
+                                        }
+                                    }
+                               }
+                           }
+                        }
+                    },
+                    "404":{
+                        "description": "user not found",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/components/responses/404"
+                                },
+                                "examples":{
+                                    "failedDelete":{
+                                        "value":{
+                                            "message":"failed delete. user not found"
+                                        }
+                                    }
+                               }
+                            }
+                        }
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "JWTAuth": {
+                "description": "token for admin",
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            },
+            "TodolistAuth": {
+                "description": "Authentication for Todolist RESTful API",
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-API-Key"
+            }
+        },
+        "parameters": {
+            "idUser": {              
+                "name": "id user",
+                "in": "path",
+                "required": true,
+                "description": "user id for profile",
+                    "schema": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 10
+                        },
+                    "examples": {
+                        "user_id":{
+                            "description": "input user id from extracted token",
+                            "value": 1
+                            }
+                        }
+            }
+        },
+        "schemas": {
+            "Login": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "token": {
+                        "type": "string"
+                    }
+                }
+            },
+            "InsertUser":{
+                "type": "object",
+                "properties": {
+                    "name":{
+                        "type": "string"
+                    },
+                    "email":{
+                        "type": "string"
+                    },
+                    "password":{
+                        "type": "string"
+                    },
+                    "phone":{
+                        "type": "string"
+                    },
+                    "role":{
+                        "type": "string"
+                    }
+                }
+            },
+            "ResponsesWithoutData": {
+                "type": "object",
+                "properties": {
+                    "message":{
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateUser": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "phone":{
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200":{
+                "description": "success Process data",
+                "content": {
+                    "application/json":{
+                        "schema":{
+                            "type": "object",
+                            "properties": {
+                                "message":{
+                                    "type": "string"
+                                }                                
+                            }
+                        }
+                    }
+                }
+            },
+            "201":{
+                "description": "success create user",
+                "content": {
+                    "application/json":{
+                        "schema":{
+                            "type": "object",
+                            "properties": {
+                                "message":{
+                                    "type": "string"
+                                }
+                            },
+                            "example":{
+                                "message":"create user successful"
+                            }
+                        }
+                    }
+                }
+            },
+            "400":{
+                "description": "bad request from user",
+                "content": {
+                    "application/json":{
+                        "schema":{
+                            "type": "object",
+                            "properties": {
+                                "message":{
+                                    "type": "string"
+                                }
+                            },
+                            "example":{
+                                "message":"Process failed. Please check your input"
+                            }
+                        }
+                    }
+                }
+            },
+            "404":{
+                "description": "page not found or wrong url. please check again.",
+                "content": {
+                    "application/json":{
+                        "schema":{
+                            "type": "object",
+                            "properties": {
+                                "message":{
+                                    "type": "string"
+                                }
+                            },
+                            "example":{
+                                "message":"procces failed. cannot procces this request"
+                            }
+                        }
+                    }
+                }
+            },
+            "500":{
+                "description": "error procces on server",
+                "content": {
+                    "application/json":{
+                        "schema":{
+                            "type": "object",
+                            "properties": {
+                                "message":{
+                                    "type": "string"
+                                }
+                            },
+                            "example":{
+                                "message": "procces failed. please check your server"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
