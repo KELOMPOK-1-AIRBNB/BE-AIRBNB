@@ -1,26 +1,21 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "myTaskApp API",
+        "title": "AIRBNB API",
         "version": "1.0.0",
-        "description": "documentation for my task app API",
-        "termsOfService": "https://mytaskapp.id",
+        "description": "documentation for airbnb API",
         "contact": {
-            "name": "Eza Bintang Ramadhan",
+            "name": "Team 1 Alterra",
             "email": "ezabintangramadhan@gmail.com"
         },
         "license": {
             "name": "APACHE 2.0"
         }
     },
-    "externalDocs": {
-        "url": "https://mytaskapp.id",
-        "description": "Full documentation about myTaskApp"
-    },
     "servers": [
         {
             "description": "SwaggerHub API Auto Mocking",
-            "url": "https://virtserver.swaggerhub.com/ezabintangramadhan/myTaskApp-api/1.0.0"
+            "url": "https://virtserver.swaggerhub.com/ezabintangramadhan/Airbnb-API/1.0.0"
         },
         {
             "description": "myTaskApp API server",
@@ -192,11 +187,6 @@
                 ],
                 "summary": "see profile user",
                 "description": "see profile user by token id",
-                "parameters": [
-                    {                        
-                        "$ref": "#/components/parameters/idUser"
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "Success get profile user",
@@ -241,11 +231,6 @@
                 ],
                 "summary": "Update existing user",
                 "description": "update existing user by id",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/idUser"
-                    }
-                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -317,11 +302,6 @@
                 ],
                 "summary": "delete existing user",
                 "description": "delete existing user by id",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/idUser"
-                    }
-                ],
                 "responses": {
                     "200":{
                         "description": "successful delete user",
@@ -364,6 +344,7 @@
             }
         }
     },
+
     "components": {
         "securitySchemes": {
             "JWTAuth": {

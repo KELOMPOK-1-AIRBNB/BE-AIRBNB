@@ -2,6 +2,9 @@ package routes
 
 import (
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/middlewares"
+	_homestayData "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays/data"
+	_homestayHandler "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays/handler"
+	_homestayService "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays/service"
 	_userData "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user/data"
 	_userHandler "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user/handler"
 	_userService "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user/service"
@@ -18,12 +21,18 @@ func InitRouter(e *echo.Echo, db *gorm.DB) {
 	userService := _userService.New(dataService, hashService)
 	userHandlerAPI := _userHandler.New(userService)
 
+	homestayData := _homestayData.New(db)
+	homestayService := _homestayService.New(homestayData, dataService)
+	homestayHandler := _homestayHandler.New(homestayService)
+
 	e.POST("/login", userHandlerAPI.Login)
 
 	e.POST("/users", userHandlerAPI.Register)
 	e.GET("/users", userHandlerAPI.GetProfileUser, middlewares.JWTMiddleware())
 	e.DELETE("/users", userHandlerAPI.Delete, middlewares.JWTMiddleware())
 	e.PUT("/users", userHandlerAPI.Update, middlewares.JWTMiddleware())
+
+	e.POST("/homestays", homestayHandler.CreateHomestay)
 
 }
 
