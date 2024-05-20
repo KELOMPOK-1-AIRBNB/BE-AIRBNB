@@ -1,4 +1,4 @@
-module myTaskApp
+module github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB
 
 go 1.22.0
 

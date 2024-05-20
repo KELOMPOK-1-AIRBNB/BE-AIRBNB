@@ -2,9 +2,9 @@ package service
 
 import (
 	"errors"
-	"myTaskApp/app/middlewares"
-	"myTaskApp/features/user"
-	encrypts "myTaskApp/utils"
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/middlewares"
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user"
+	encrypts "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/utils"
 )
 
 type userService struct {
