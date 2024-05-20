@@ -12,3 +12,7 @@ type LoginRequest struct {
 	Email    string `gorm:"unique" json:"email" form:"email"`
 	Password string `json:"password" form:"password"`
 }
+
+type RoleRequest struct {
+	Role string `json:"role" form:"role"`
+}

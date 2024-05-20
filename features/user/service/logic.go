@@ -70,6 +70,14 @@ func (u *userService) Update(id uint, input user.Core) error {
 	return u.userData.Update(id, input)
 }
 
+// UpdateRole implements user.ServiceInterface.
+func (u *userService) UpdateRole(id uint, input user.Core) error {
+	if id <= 0 {
+		return errors.New("id not valid")
+	}
+	return u.userData.UpdateRole(id, input)
+}
+
 // Login implements user.ServiceInterface.
 func (u *userService) Login(email string, password string) (data *user.Core, token string, err error) {
 	data, err = u.userData.Login(email)
