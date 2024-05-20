@@ -93,6 +93,25 @@ func (uh *UserHandler) Update(c echo.Context) error {
 	return c.JSON(http.StatusOK, responses.WebJSONResponse("success update user", nil))
 }
 
+func (uh *UserHandler) UpdateRole(c echo.Context) error {
+	idToken := middlewares.ExtractTokenUserId(c)
+	updateRole := RoleRequest{}
+	errBind := c.Bind(&updateRole)
+	if errBind != nil {
+		return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("error bind data: "+errBind.Error(), nil))
+	}
+
+	updateRoleCore := user.Core{
+		Role: updateRole.Role,
+	}
+
+	errUpdateRole := uh.userService.UpdateRole(uint(idToken), updateRoleCore)
+	if errUpdateRole != nil {
+		return c.JSON(http.StatusInternalServerError, responses.WebJSONResponse("error update role: "+errUpdateRole.Error(), nil))
+	}
+	return c.JSON(http.StatusOK, responses.WebJSONResponse("success update role", nil))
+}
+
 func (uh *UserHandler) Login(c echo.Context) error {
 	loginUser := LoginRequest{}
 	errBind := c.Bind(&loginUser)

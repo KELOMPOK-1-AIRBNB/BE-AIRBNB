@@ -77,6 +77,16 @@ func (u *userQuery) Update(id uint, input user.Core) error {
 	return nil
 }
 
+// UpdateRole implements user.DataInterface.
+func (u *userQuery) UpdateRole(id uint, input user.Core) error {
+	tx := u.db.Model(&User{}).Where("id=?", id).Updates(input)
+	if tx.Error != nil {
+		return tx.Error
+	}
+
+	return nil
+}
+
 // Login implements user.DataInterface.
 func (u *userQuery) Login(email string) (*user.Core, error) {
 	var userData User
