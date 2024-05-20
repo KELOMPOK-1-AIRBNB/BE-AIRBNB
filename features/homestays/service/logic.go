@@ -2,8 +2,9 @@ package service
 
 import (
 	"errors"
-	homestay "myTaskApp/features/homestays"
-	"myTaskApp/features/user"
+
+	homestay "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays"
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user"
 )
 
 type homestayService struct {

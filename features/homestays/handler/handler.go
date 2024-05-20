@@ -1,11 +1,12 @@
 package handler
 
 import (
-	"myTaskApp/app/middlewares"
-	homestay "myTaskApp/features/homestays"
-	"myTaskApp/utils/responses"
 	"net/http"
 	"strconv"
+
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/middlewares"
+	homestay "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays"
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/utils/responses"
 
 	"github.com/labstack/echo/v4"
 )
