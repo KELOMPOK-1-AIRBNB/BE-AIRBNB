@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"myTaskApp/app/middlewares"
-	"myTaskApp/features/user"
-	"myTaskApp/utils/responses"
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/middlewares"
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user"
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/utils/responses"
 	"net/http"
 	"strings"
 

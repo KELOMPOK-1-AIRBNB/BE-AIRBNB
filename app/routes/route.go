@@ -1,11 +1,11 @@
 package routes
 
 import (
-	"myTaskApp/app/middlewares"
-	_userData "myTaskApp/features/user/data"
-	_userHandler "myTaskApp/features/user/handler"
-	_userService "myTaskApp/features/user/service"
-	encrypts "myTaskApp/utils"
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/middlewares"
+	_userData "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user/data"
+	_userHandler "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user/handler"
+	_userService "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user/service"
+	encrypts "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/utils"
 
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"

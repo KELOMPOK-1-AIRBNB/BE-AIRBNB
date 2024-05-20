@@ -1,7 +1,7 @@
 package data
 
 import (
-	"myTaskApp/features/user"
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user"
 
 	"gorm.io/gorm"
 )

@@ -1,9 +1,9 @@
 package migrations
 
 import (
-	"myTaskApp/app/configs"
-	"myTaskApp/app/databases"
-	userData "myTaskApp/features/user/data"
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/configs"
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/databases"
+	userData "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user/data"
 )
 
 func InitialMigration() {

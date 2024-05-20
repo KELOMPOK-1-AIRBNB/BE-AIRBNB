@@ -1,10 +1,10 @@
 package main
 
 import (
-	"myTaskApp/app/configs"
-	"myTaskApp/app/databases"
-	"myTaskApp/app/migrations"
-	"myTaskApp/app/routes"
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/configs"
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/databases"
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/migrations"
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/routes"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"

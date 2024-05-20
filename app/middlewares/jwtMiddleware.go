@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"myTaskApp/app/configs"
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/configs"
 	"strings"
 	"time"
 
