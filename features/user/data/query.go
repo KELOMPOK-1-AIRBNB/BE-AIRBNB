@@ -21,12 +21,12 @@ func (u *userQuery) Insert(input user.Core) error {
 	var userGorm User
 
 	userGorm = User{
-		Model:    gorm.Model{},
-		Name:     input.Name,
-		Email:    input.Email,
-		Password: input.Password,
-		Phone:    input.Phone,
-		Role:     input.Role,
+		Model:       gorm.Model{},
+		Name:        input.Name,
+		Email:       input.Email,
+		Password:    input.Password,
+		PhoneNumber: input.Phone,
+		Role:        input.Role,
 	}
 	tx := u.db.Create(&userGorm)
 	if tx.Error != nil {
@@ -49,7 +49,7 @@ func (u *userQuery) SelectProfileById(id uint) (*user.Core, error) {
 		Name:      userProfile.Name,
 		Email:     userProfile.Email,
 		Password:  userProfile.Password,
-		Phone:     userProfile.Phone,
+		Phone:     userProfile.PhoneNumber,
 		Role:      userProfile.Role,
 		CreatedAt: userProfile.CreatedAt,
 		UpdatedAt: userProfile.UpdatedAt,
@@ -90,7 +90,7 @@ func (u *userQuery) Login(email string) (*user.Core, error) {
 		Name:      userData.Name,
 		Email:     userData.Email,
 		Password:  userData.Password,
-		Phone:     userData.Phone,
+		Phone:     userData.PhoneNumber,
 		Role:      userData.Role,
 		CreatedAt: userData.CreatedAt,
 		UpdatedAt: userData.UpdatedAt,
