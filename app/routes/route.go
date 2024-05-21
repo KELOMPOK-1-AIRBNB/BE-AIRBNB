@@ -42,6 +42,41 @@ func InitRouter(e *echo.Echo, db *gorm.DB) {
 
 }
 
+// contoh upload file
+//	e.POST("/file", FileUpload)
+//}
+//
+//
+//
+//func FileUpload(c echo.Context) error {
+//	formHeader, err := c.FormFile("file")
+//	if err != nil {
+//		return c.JSON(http.StatusBadRequest, map[string]any{
+//			"status": "gagal header",
+//		})
+//	}
+//
+//	formFile, err := formHeader.Open()
+//	if err != nil {
+//		return c.JSON(http.StatusBadRequest, map[string]any{
+//			"status": "gagal formfile",
+//		})
+//	}
+//
+//	uploadUrl, err := upload.ImageUploadHelper(formFile)
+//	if err != nil {
+//		return c.JSON(http.StatusBadRequest, map[string]any{
+//			"status": "gagal upload",
+//		})
+//	}
+//
+//	return c.JSON(http.StatusOK, map[string]any{
+//		"status": "success",
+//		"image":  uploadUrl,
+//	})
+//
+//}
+
 // taskData := _taskData.New(db)
 // taskService := _taskService.New(taskData, projectData)
 // taskHandlerAPI := _taskHandler.New(taskService)
