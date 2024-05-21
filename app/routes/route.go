@@ -32,19 +32,15 @@ func InitRouter(e *echo.Echo, db *gorm.DB) {
 	e.DELETE("/users", userHandlerAPI.Delete, middlewares.JWTMiddleware())
 	e.PUT("/users", userHandlerAPI.Update, middlewares.JWTMiddleware())
 
-	e.GET("/homestays", homestayHandler.GetAllForUser)
-	e.GET("/homestays/host", homestayHandler.GetAllHomestay)
-	e.POST("/homestays/host", homestayHandler.CreateHomestay)
-	e.GET("/homestays/host/myHomestay", homestayHandler.GetMyHomestay)
-	e.GET("/homestays/host/:id", homestayHandler.GetHomestayById)
-	e.PUT("/homestays/host/:id", homestayHandler.UpdateHomestay)
-	e.DELETE("/homestays/host/:id", homestayHandler.DeleteHomestay)
+	e.GET("/homestays", homestayHandler.GetAllForUser, middlewares.JWTMiddleware())
+	e.GET("/homestays/host", homestayHandler.GetAllHomestay, middlewares.JWTMiddleware())
+	e.POST("/homestays/host", homestayHandler.CreateHomestay, middlewares.JWTMiddleware())
+	e.GET("/homestays/host/myHomestay", homestayHandler.GetMyHomestay, middlewares.JWTMiddleware())
+	e.GET("/homestays/host/:id", homestayHandler.GetHomestayById, middlewares.JWTMiddleware())
+	e.PUT("/homestays/host/:id", homestayHandler.UpdateHomestay, middlewares.JWTMiddleware())
+	e.DELETE("/homestays/host/:id", homestayHandler.DeleteHomestay, middlewares.JWTMiddleware())
 
 }
-
-// projectData := _projectData.New(db)
-// projectService := _projectService.New(projectData, dataService)
-// projectHandlerAPI := _projectHandler.New(projectService)
 
 // taskData := _taskData.New(db)
 // taskService := _taskService.New(taskData, projectData)
