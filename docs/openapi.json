@@ -581,7 +581,7 @@
                 }
             }
         },
-        "/homestays/host/:id":{
+        "/homestays/host/{id}":{
             "get":{
                 "security": [
                     {
@@ -789,7 +789,7 @@
         },
         "parameters": {
             "idHomestay": {              
-                "name": "homestay id",
+                "name": "id",
                 "in": "path",
                 "required": true,
                 "description": "id homestay to get data",
@@ -830,14 +830,6 @@
                         "type": "string"
                     },
                     "role":{
-                        "type": "string"
-                    }
-                }
-            },
-            "ResponsesWithoutData": {
-                "type": "object",
-                "properties": {
-                    "message":{
                         "type": "string"
                     }
                 }
