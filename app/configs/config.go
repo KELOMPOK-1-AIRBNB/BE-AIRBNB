@@ -6,7 +6,11 @@ import (
 )
 
 var (
-	JWT_SECRET string
+	CLOUDINARY_CLOUD_NAME    string
+	CLOUDINARY_API_KEY       string
+	CLOUDINARY_API_SECRET    string
+	CLOUDINARY_UPLOAD_FOLDER string
+	JWT_SECRET               string
 )
 
 type AppConfig struct {
@@ -29,6 +33,10 @@ func ReadEnv() *AppConfig {
 	app.DB_PORT = portConv
 	app.DB_NAME = os.Getenv("DBNAME")
 	JWT_SECRET = os.Getenv("JWTSECRET")
+	CLOUDINARY_CLOUD_NAME = os.Getenv("CLOUDINARY_CLOUD_NAME")
+	CLOUDINARY_API_KEY = os.Getenv("CLOUDINARY_API_KEY")
+	CLOUDINARY_API_SECRET = os.Getenv("CLOUDINARY_API_SECRET")
+	CLOUDINARY_UPLOAD_FOLDER = os.Getenv("CLOUDINARY_UPLOAD_FOLDER")
 	return &app
 }
 
