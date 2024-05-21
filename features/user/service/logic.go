@@ -48,10 +48,15 @@ func (u *userService) GetProfileUser(id uint) (*user.Core, error) {
 
 // Delete implements user.ServiceInterface.
 func (u *userService) Delete(id uint) error {
-	if id <= 0 {
-		return errors.New("id not valid")
+	result, err := u.userData.SelectProfileById(id)
+	if err != nil {
+		return err
 	}
-	return u.userData.Delete(id)
+	if result.DeleteAt.IsZero() {
+		return u.userData.Delete(id)
+	} else {
+		return errors.New("user not found. you must login first")
+	}
 }
 
 // Update implements user.ServiceInterface.
@@ -71,8 +76,9 @@ func (u *userService) Update(id uint, input user.Core) error {
 
 	if result.DeleteAt.IsZero() {
 		return u.userData.Update(id, input)
+	} else {
+		return errors.New("user not found. you must login first")
 	}
-	return nil
 }
 
 // Login implements user.ServiceInterface.
