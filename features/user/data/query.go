@@ -53,6 +53,7 @@ func (u *userQuery) SelectProfileById(id uint) (*user.Core, error) {
 		Role:      userProfile.Role,
 		CreatedAt: userProfile.CreatedAt,
 		UpdatedAt: userProfile.UpdatedAt,
+		DeleteAt:  userProfile.DeletedAt.Time,
 	}
 
 	return &userCore, nil
