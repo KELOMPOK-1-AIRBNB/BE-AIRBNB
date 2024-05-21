@@ -11,6 +11,7 @@ type Core struct {
 	Role      string
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	DeleteAt  time.Time
 }
 
 type DataInterface interface {

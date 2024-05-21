@@ -56,15 +56,23 @@ func (u *userService) Delete(id uint) error {
 
 // Update implements user.ServiceInterface.
 func (u *userService) Update(id uint, input user.Core) error {
-	if id <= 0 {
-		return errors.New("id not valid")
+	result, err := u.userData.SelectProfileById(id)
+	if err != nil {
+		return err
 	}
-	result, errHash := u.hashService.HashPassword(input.Password)
+
+	result2, errHash := u.hashService.HashPassword(input.Password)
 	if errHash != nil {
 		return errHash
 	}
-	input.Password = result
-	return u.userData.Update(id, input)
+	if input.Password != "" {
+		input.Password = result2
+	}
+
+	if result.DeleteAt.IsZero() {
+		return u.userData.Update(id, input)
+	}
+	return nil
 }
 
 // Login implements user.ServiceInterface.
