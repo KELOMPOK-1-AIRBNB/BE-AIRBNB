@@ -32,7 +32,13 @@ func InitRouter(e *echo.Echo, db *gorm.DB) {
 	e.DELETE("/users", userHandlerAPI.Delete, middlewares.JWTMiddleware())
 	e.PUT("/users", userHandlerAPI.Update, middlewares.JWTMiddleware())
 
-	e.POST("/homestays", homestayHandler.CreateHomestay)
+	e.GET("/homestays", homestayHandler.GetAllForUser)
+	e.GET("/homestays/host", homestayHandler.GetAllHomestay)
+	e.POST("/homestays/host", homestayHandler.CreateHomestay)
+	e.GET("/homestays/host/myHomestay", homestayHandler.GetMyHomestay)
+	e.GET("/homestays/host/:id", homestayHandler.GetHomestayById)
+	e.PUT("/homestays/host/:id", homestayHandler.UpdateHomestay)
+	e.DELETE("/homestays/host/:id", homestayHandler.DeleteHomestay)
 
 }
 

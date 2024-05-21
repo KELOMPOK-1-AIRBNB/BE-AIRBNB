@@ -8,7 +8,9 @@ type HomestayResponse struct {
 }
 
 type HomestayResponseById struct {
-	ID           uint
-	HomestayName string
-	Description  string
+	ID            uint
+	HomestayName  string
+	Address       string
+	Description   string
+	PricePerNight int
 }

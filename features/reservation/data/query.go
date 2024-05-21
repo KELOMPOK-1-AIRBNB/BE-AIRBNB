@@ -46,6 +46,16 @@ func (r *reservationQuery) CreateReservation(input reservation.Core) error {
 		return tx.Error
 	}
 
+	updateHomestay := Reservation{
+		StartDate: input.StartDate,
+		EndDate:   input.EndDate,
+	}
+
+	tx2 := r.db.Model(&homestayData.Homestay{}).Where("id = ?", input.HomestayID).Updates(updateHomestay)
+	if tx2.Error != nil {
+		return tx2.Error
+	}
+
 	return nil
 }
 

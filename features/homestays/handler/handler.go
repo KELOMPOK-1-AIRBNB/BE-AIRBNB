@@ -77,12 +77,33 @@ func (h *HomestayHandler) GetAllHomestay(c echo.Context) error {
 	var allHomestayResponse []HomestayResponse
 	for _, v := range result {
 		allHomestayResponse = append(allHomestayResponse, HomestayResponse{
-			ID:           v.ID,
-			HomestayName: v.HomestayName,
+			ID:            v.ID,
+			HomestayName:  v.HomestayName,
+			Address:       v.Address,
+			PricePerNight: v.CostPerNight,
 		})
 	}
 
 	return c.JSON(http.StatusOK, responses.WebJSONResponse("success get all homestay", allHomestayResponse))
+}
+
+func (h *HomestayHandler) GetMyHomestay(c echo.Context) error {
+	idToken := middlewares.ExtractTokenUserId(c)
+	result, err := h.homestayService.GetMyHomestay(uint(idToken))
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responses.WebJSONResponse("error get your homestay "+err.Error(), nil))
+	}
+
+	var allMyHomestay []HomestayResponse
+	for _, v := range result {
+		allMyHomestay = append(allMyHomestay, HomestayResponse{
+			ID:            v.ID,
+			HomestayName:  v.HomestayName,
+			Address:       v.Address,
+			PricePerNight: v.CostPerNight,
+		})
+	}
+	return c.JSON(http.StatusOK, responses.WebJSONResponse("success get all your homestay", allMyHomestay))
 }
 
 func (h *HomestayHandler) GetHomestayById(c echo.Context) error {
@@ -99,9 +120,11 @@ func (h *HomestayHandler) GetHomestayById(c echo.Context) error {
 	}
 
 	responseResult := HomestayResponseById{
-		ID:           uint(idConv),
-		HomestayName: result.HomestayName,
-		Description:  result.Description,
+		ID:            uint(idConv),
+		HomestayName:  result.HomestayName,
+		Address:       result.Address,
+		PricePerNight: result.CostPerNight,
+		Description:   result.Description,
 	}
 	return c.JSON(http.StatusOK, responses.WebJSONResponse("success get homestay", responseResult))
 }

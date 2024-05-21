@@ -36,7 +36,32 @@ func (p *homestayQuery) Insert(input homestay.Core) error {
 }
 
 // SelectAllForUser implements homestay.DataInterface.
-func (p *homestayQuery) SelectAllForUser(id uint) ([]homestay.Core, error) {
+func (p *homestayQuery) SelectAllForUser() ([]homestay.Core, error) {
+	var allHomestay []Homestay
+	tx := p.db.Find(&allHomestay)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+
+	var allHomestayCore []homestay.Core
+	for _, v := range allHomestay {
+		allHomestayCore = append(allHomestayCore, homestay.Core{
+			ID:           v.ID,
+			UserID:       v.UserID,
+			HomestayName: v.HomestayName,
+			Address:      v.Address,
+			Description:  v.Description,
+			CostPerNight: v.PricePerNight,
+			CreatedAt:    v.CreatedAt,
+			UpdatedAt:    v.UpdatedAt,
+		})
+	}
+
+	return allHomestayCore, nil
+}
+
+// SelectAll implements homestay.DataInterface.
+func (p *homestayQuery) SelectAll(id uint) ([]homestay.Core, error) {
 	var allHomestay []Homestay
 	tx := p.db.Where("user_id != ?", id).Find(&allHomestay)
 	if tx.Error != nil {
@@ -49,32 +74,9 @@ func (p *homestayQuery) SelectAllForUser(id uint) ([]homestay.Core, error) {
 			ID:           v.ID,
 			UserID:       v.UserID,
 			HomestayName: v.HomestayName,
+			Address:      v.Address,
 			Description:  v.Description,
-			CreatedAt:    v.CreatedAt,
-			UpdatedAt:    v.UpdatedAt,
-		})
-	}
-
-	return allHomestayCore, nil
-}
-
-// SelectAll implements homestay.DataInterface.
-func (p *homestayQuery) SelectAll(id uint) ([]homestay.Core, error) {
-	var allHomestay []Homestay
-	tx := p.db.Where("user_id = ?", id).Find(&allHomestay)
-	if tx.Error != nil {
-		return nil, tx.Error
-	}
-
-	var allHomestayCore []homestay.Core
-	for _, v := range allHomestay {
-		allHomestayCore = append(allHomestayCore, homestay.Core{
-			ID:           v.ID,
-			UserID:       v.UserID,
-			HomestayName: v.HomestayName,
-			Description:  v.Description,
-			CreatedAt:    v.CreatedAt,
-			UpdatedAt:    v.UpdatedAt,
+			CostPerNight: v.PricePerNight,
 		})
 	}
 
@@ -93,6 +95,7 @@ func (p *homestayQuery) GetHomestayById(id uint) (homestay.Core, error) {
 		ID:           id,
 		UserID:       homestayId.UserID,
 		HomestayName: homestayId.HomestayName,
+		Address:      homestayId.Address,
 		Description:  homestayId.Description,
 		CostPerNight: homestayId.PricePerNight,
 	}
@@ -141,4 +144,27 @@ func (p *homestayQuery) GetUserByHomestayId(id uint) (homestay.Core, error) {
 	}
 
 	return projectIdCore, nil
+}
+
+// GetMyHomestay implements homestay.DataInterface.
+func (p *homestayQuery) GetMyHomestay(id uint) ([]homestay.Core, error) {
+	var allHomestay []Homestay
+	tx := p.db.Where("user_id = ?", id).Find(&allHomestay)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+
+	var allHomestayCore []homestay.Core
+	for _, v := range allHomestay {
+		allHomestayCore = append(allHomestayCore, homestay.Core{
+			ID:           v.ID,
+			UserID:       v.UserID,
+			HomestayName: v.HomestayName,
+			Address:      v.Address,
+			Description:  v.Description,
+			CostPerNight: v.PricePerNight,
+		})
+	}
+
+	return allHomestayCore, nil
 }
