@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/middlewares"
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user"
 	encrypts "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/utils"
@@ -21,13 +22,9 @@ func New(ud user.DataInterface, hash encrypts.HashInterface) user.ServiceInterfa
 
 // Create implements user.ServiceInterface.
 func (u *userService) Create(input user.Core) error {
-	if input.Name == "" || input.Email == "" || input.Password == "" {
-		return errors.New("[validation] nama/email/password tidak boleh kosong")
+	if input.Name == "" || input.Email == "" || input.Password == "" || input.Phone == "" {
+		return errors.New("[validation] nama/email/password/phone tidak boleh kosong")
 	}
-	if input.Phone == "" || input.Role == "" {
-		return errors.New("[validation] phone/role tidak boleh kosong")
-	}
-
 	result, errHash := u.hashService.HashPassword(input.Password)
 	if errHash != nil {
 		return errHash
@@ -70,14 +67,6 @@ func (u *userService) Update(id uint, input user.Core) error {
 	return u.userData.Update(id, input)
 }
 
-// UpdateRole implements user.ServiceInterface.
-func (u *userService) UpdateRole(id uint, input user.Core) error {
-	if id <= 0 {
-		return errors.New("id not valid")
-	}
-	return u.userData.UpdateRole(id, input)
-}
-
 // Login implements user.ServiceInterface.
 func (u *userService) Login(email string, password string) (data *user.Core, token string, err error) {
 	data, err = u.userData.Login(email)
@@ -95,3 +84,11 @@ func (u *userService) Login(email string, password string) (data *user.Core, tok
 	}
 	return data, token, nil
 }
+
+// // UpdateRole implements user.ServiceInterface.
+// func (u *userService) UpdateRole(id uint, input user.Core) error {
+// 	if id <= 0 {
+// 		return errors.New("id not valid")
+// 	}
+// 	return u.userData.UpdateRole(id, input)
+// }
