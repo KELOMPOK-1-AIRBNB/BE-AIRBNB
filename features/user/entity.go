@@ -27,6 +27,5 @@ type ServiceInterface interface {
 	GetProfileUser(id uint) (*Core, error)
 	Delete(id uint) error
 	Update(id uint, input Core) error
-	UpdateRole(id uint, input Core) error
 	Login(email, password string) (data *Core, token string, err error)
 }

@@ -21,7 +21,7 @@ func InitRouter(e *echo.Echo, db *gorm.DB) {
 	userService := _userService.New(dataService, hashService)
 	userHandlerAPI := _userHandler.New(userService)
 
-	homestayData := _homestayData.New(db)
+	homestayData := _homestayData.New(db, dataService)
 	homestayService := _homestayService.New(homestayData, dataService)
 	homestayHandler := _homestayHandler.New(homestayService)
 
@@ -31,6 +31,7 @@ func InitRouter(e *echo.Echo, db *gorm.DB) {
 	e.GET("/users", userHandlerAPI.GetProfileUser, middlewares.JWTMiddleware())
 	e.DELETE("/users", userHandlerAPI.Delete, middlewares.JWTMiddleware())
 	e.PUT("/users", userHandlerAPI.Update, middlewares.JWTMiddleware())
+	e.POST("users/upgrade", homestayHandler.MakeHost, middlewares.JWTMiddleware())
 
 	e.GET("/homestays", homestayHandler.GetAllForUser, middlewares.JWTMiddleware())
 	e.GET("/homestays/host", homestayHandler.GetAllHomestay, middlewares.JWTMiddleware())

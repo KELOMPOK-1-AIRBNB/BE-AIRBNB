@@ -26,7 +26,7 @@ func (u *userQuery) Insert(input user.Core) error {
 		Email:       input.Email,
 		Password:    input.Password,
 		PhoneNumber: input.Phone,
-		Role:        input.Role,
+		Role:        "user",
 	}
 	tx := u.db.Create(&userGorm)
 	if tx.Error != nil {

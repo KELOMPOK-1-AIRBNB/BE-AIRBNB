@@ -1,11 +1,12 @@
 package handler
 
 import (
+	"net/http"
+	"strings"
+
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/middlewares"
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user"
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/utils/responses"
-	"net/http"
-	"strings"
 
 	"github.com/labstack/echo/v4"
 )
@@ -32,7 +33,6 @@ func (uh *UserHandler) Register(c echo.Context) error {
 		Email:    newUser.Email,
 		Password: newUser.Password,
 		Phone:    newUser.PhoneNumber,
-		Role:     newUser.Role,
 	}
 	errInsert := uh.userService.Create(inputCore)
 	if errInsert != nil {
@@ -83,7 +83,6 @@ func (uh *UserHandler) Update(c echo.Context) error {
 		Email:    updateUser.Email,
 		Password: updateUser.Password,
 		Phone:    updateUser.PhoneNumber,
-		Role:     updateUser.Role,
 	}
 
 	errUpdate := uh.userService.Update(uint(idToken), updateCore)
@@ -91,25 +90,6 @@ func (uh *UserHandler) Update(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responses.WebJSONResponse("error update data: "+errUpdate.Error(), nil))
 	}
 	return c.JSON(http.StatusOK, responses.WebJSONResponse("success update user", nil))
-}
-
-func (uh *UserHandler) UpdateRole(c echo.Context) error {
-	idToken := middlewares.ExtractTokenUserId(c)
-	updateRole := RoleRequest{}
-	errBind := c.Bind(&updateRole)
-	if errBind != nil {
-		return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("error bind data: "+errBind.Error(), nil))
-	}
-
-	updateRoleCore := user.Core{
-		Role: updateRole.Role,
-	}
-
-	errUpdateRole := uh.userService.UpdateRole(uint(idToken), updateRoleCore)
-	if errUpdateRole != nil {
-		return c.JSON(http.StatusInternalServerError, responses.WebJSONResponse("error update role: "+errUpdateRole.Error(), nil))
-	}
-	return c.JSON(http.StatusOK, responses.WebJSONResponse("success update role", nil))
 }
 
 func (uh *UserHandler) Login(c echo.Context) error {
@@ -132,3 +112,16 @@ func (uh *UserHandler) Login(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, responses.WebJSONResponse("success login", resultResponse))
 }
+
+// func (uh *UserHandler) UpdateRole(c echo.Context) error {
+// 	idToken := middlewares.ExtractTokenUserId(c)
+// 	updateRoleCore := user.Core{
+// 		Role: "host",
+// 	}
+
+// 	errUpdateRole := uh.userService.UpdateRole(uint(idToken), updateRoleCore)
+// 	if errUpdateRole != nil {
+// 		return c.JSON(http.StatusInternalServerError, responses.WebJSONResponse("error update role: "+errUpdateRole.Error(), nil))
+// 	}
+// 	return c.JSON(http.StatusOK, responses.WebJSONResponse("success update role", nil))
+// }

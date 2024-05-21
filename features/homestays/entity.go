@@ -34,6 +34,7 @@ type DataInterface interface {
 	Update(id uint, input Core) error
 	GetUserByHomestayId(id uint) (Core, error)
 	GetMyHomestay(id uint) ([]Core, error)
+	MakeHost(id uint, input Core) error
 }
 
 type ServiceInterface interface {
@@ -44,4 +45,5 @@ type ServiceInterface interface {
 	Delete(id uint, idUser uint) error
 	Update(id uint, idUser uint, input Core) error
 	GetMyHomestay(id uint) ([]Core, error)
+	MakeHost(id uint, input Core) error
 }

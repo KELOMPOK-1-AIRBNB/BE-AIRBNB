@@ -2,29 +2,35 @@ package data
 
 import (
 	homestay "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays"
+	userInterface "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user"
 
 	"gorm.io/gorm"
 )
 
 type homestayQuery struct {
-	db *gorm.DB
+	db   *gorm.DB
+	user userInterface.DataInterface
 }
 
-func New(db *gorm.DB) homestay.DataInterface {
+func New(db *gorm.DB, user userInterface.DataInterface) homestay.DataInterface {
 	return &homestayQuery{
-		db: db,
+		db:   db,
+		user: user,
 	}
 }
 
 // Insert implements homestay.DataInterface.
 func (p *homestayQuery) Insert(input homestay.Core) error {
-	var homestayGorm Homestay
-
-	homestayGorm = Homestay{
-		Model:        gorm.Model{},
-		UserID:       input.UserID,
-		HomestayName: input.HomestayName,
-		Description:  input.Description,
+	homestayGorm := Homestay{
+		Model:         gorm.Model{},
+		UserID:        input.UserID,
+		HomestayName:  input.HomestayName,
+		Address:       input.Address,
+		Images1:       input.Images1,
+		Images2:       input.Images2,
+		Images3:       input.Images3,
+		Description:   input.Description,
+		PricePerNight: input.CostPerNight,
 	}
 
 	tx := p.db.Create(&homestayGorm)
@@ -167,4 +173,19 @@ func (p *homestayQuery) GetMyHomestay(id uint) ([]homestay.Core, error) {
 	}
 
 	return allHomestayCore, nil
+}
+
+// MakeHost implements homestay.DataInterface.
+func (p *homestayQuery) MakeHost(id uint, input homestay.Core) error {
+	role := userInterface.Core{
+		Role: "host",
+	}
+	p.user.UpdateRole(id, role)
+
+	err := p.Insert(input)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
