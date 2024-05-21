@@ -16,20 +16,6 @@
         {
             "description": "SwaggerHub API Auto Mocking",
             "url": "https://virtserver.swaggerhub.com/ezabintangramadhan/Airbnb-API/1.0.0"
-        },
-        {
-            "description": "myTaskApp API server",
-            "url": "https://{environment}.api.mytaskapp.id",
-            "variables": {
-                "environment": {
-                    "default": "dev",
-                    "enum": [
-                        "dev",
-                        "qa",
-                        "prod"
-                    ]
-                }
-            }
         }
     ],
     "paths": {
@@ -160,7 +146,6 @@
                         }
                     }
                 },
-                "parameters": [],
                 "responses": {
                     "201":{
                        "$ref": "#/components/responses/201"
@@ -342,9 +327,451 @@
                     }
                 }
             }
+        },
+        "/homestays":{
+            "get":{
+                "security": [
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "tags": [
+                    "homestays"
+                ],
+                "summary": "get all homestay in user mode",
+                "description": "get all homestay when user in user mode",
+                "responses": {
+                    "200":{
+                        "description": "Success get all homestay",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "allOf":[
+                                        {
+                                            "$ref": "#/components/schemas/ResponsesWithData"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "message":{
+                                                    "type": "string",
+                                                    "example":"success get all homestay"
+                                                },
+                                                "data":{
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "homestayID" :{
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "homestayName":{
+                                                            "type": "string",
+                                                            "example":"puncak cottage"
+                                                        },
+                                                        "address":{
+                                                            "type": "string",
+                                                            "example":"Bandung"
+                                                        },
+                                                        "pricePerNight":{
+                                                            "type": "integer",
+                                                            "example":120000
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "$ref": "#/components/responses/404"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
+        "/homestays/host":{
+            "get":{
+                "security": [
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "tags": ["homestays"],
+                "summary": "get all homestay in host mode",
+                "description": "get all homestay when user in host mode",
+                "responses": {
+                    "200":{
+                        "description": "Success get all homestay",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "allOf":[
+                                        {
+                                            "$ref": "#/components/schemas/ResponsesWithData"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "message":{
+                                                    "type": "string",
+                                                    "example":"success get all homestay"
+                                                },
+                                                "data":{
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "homestayID" :{
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "homestayName":{
+                                                            "type": "string",
+                                                            "example":"puncak cottage"
+                                                        },
+                                                        "address":{
+                                                            "type": "string",
+                                                            "example":"Bandung"
+                                                        },
+                                                        "pricePerNight":{
+                                                            "type": "integer",
+                                                            "example":120000
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "$ref": "#/components/responses/404"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            },
+            "post":{
+                "security": [
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "tags": ["homestays"],
+                "summary": "create new homestay",
+                "description": "create homestays for rent",
+                "requestBody":{
+                    "required": true,
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/CreateHomestay"
+                            },
+                            "example":{
+                                "homestayName":"puncak dieng",
+                                "address":"Bandung",
+                                "description":"1 queen size bed, 1 toilet, TV, wifi, etc",
+                                "pricePerNight":145000,
+                                "images1":"url images1",
+                                "images2":"url images2",
+                                "images3":"url images3"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description": "success add homestay",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "allOf":[
+                                        {
+                                            "$ref": "#/components/responses/201"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "message":{
+                                                    "type": "string",
+                                                    "example":"success add homestay"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "$ref": "#/components/responses/400"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
+        "/homestays/host/myHomestay":{
+            "get":{
+                "security": [
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "tags": ["homestays"],
+                "description": "get all user's homestay",
+                "responses": {
+                    "200":{
+                        "description": "Success get all homestay",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "allOf":[
+                                        {
+                                            "$ref": "#/components/schemas/ResponsesWithData"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "message":{
+                                                    "type": "string",
+                                                    "example":"success get all homestay"
+                                                },
+                                                "data":{
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "homestayID" :{
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "homestayName":{
+                                                            "type": "string",
+                                                            "example":"puncak cottage"
+                                                        },
+                                                        "address":{
+                                                            "type": "string",
+                                                            "example":"Bandung"
+                                                        },
+                                                        "pricePerNight":{
+                                                            "type": "integer",
+                                                            "example":120000
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "$ref": "#/components/responses/404"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
+        "/homestays/host/:id":{
+            "get":{
+                "security": [
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "tags": ["homestays"],
+                "summary": "get homestay by id",
+                "description": "get homestay using id at path parameter. only return 1 data",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/idHomestay"
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Success get homestay",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "allOf":[
+                                        {
+                                            "$ref": "#/components/schemas/ResponsesWithData"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "message":{
+                                                    "type": "string",
+                                                    "example":"success get homestay"
+                                                },
+                                                "data":{
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "homestayID" :{
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "homestayName":{
+                                                            "type": "string",
+                                                            "example":"puncak cottage"
+                                                        },
+                                                        "address":{
+                                                            "type": "string",
+                                                            "example":"Bandung"
+                                                        },
+                                                        "pricePerNight":{
+                                                            "type": "integer",
+                                                            "example":120000
+                                                        },
+                                                        "description":{
+                                                            "type": "string",
+                                                            "example":"1 queen size bed, 1 toilet, TV, wifi, etc"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "$ref": "#/components/responses/404"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            },
+            "put":{
+                "security": [
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "tags": ["homestays"],
+                "summary": "update homestay data by id",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/idHomestay"
+                    }
+                ],
+                "requestBody":{
+                    "required": true,
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/CreateHomestay"
+                            },
+                            "example":{
+                                "homestayName":"bromo cottage",
+                                "address":"lumajang",
+                                "description":"1 king size bed, 2 toilet, TV, wifi, etc",
+                                "pricePerNight":375000,
+                                "images1":"url images1",
+                                "images2":"url images2",
+                                "images3":"url images3"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description": "success update homestay",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "allOf":[
+                                        {
+                                            "$ref": "#/components/responses/201"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "message":{
+                                                    "type": "string",
+                                                    "example":"success update homestay"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "$ref": "#/components/responses/400"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            },
+            "delete":{
+                "security": [
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "tags": ["homestays"],
+                "summary": "delete homestay by id",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/idHomestay"
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "successful delete homestay",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/components/responses/200"
+                                },
+                                "examples":{
+                                    "successfulUpdate":{
+                                        "value":{
+                                            "message":"success delete homestay"
+                                        }
+                                    }
+                               }
+                           }
+                        }
+                    },
+                    "404":{
+                        "description": "user not found",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/components/responses/404"
+                                },
+                                "examples":{
+                                    "failedDelete":{
+                                        "value":{
+                                            "message":"failed delete. homestay not found"
+                                        }
+                                    }
+                               }
+                            }
+                        }
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
         }
     },
-
     "components": {
         "securitySchemes": {
             "JWTAuth": {
@@ -361,21 +788,14 @@
             }
         },
         "parameters": {
-            "idUser": {              
-                "name": "id user",
+            "idHomestay": {              
+                "name": "homestay id",
                 "in": "path",
                 "required": true,
-                "description": "user id for profile",
+                "description": "id homestay to get data",
                     "schema": {
-                        "type": "string",
-                        "minLength": 1,
-                        "maxLength": 10
-                        },
-                    "examples": {
-                        "user_id":{
-                            "description": "input user id from extracted token",
-                            "value": 1
-                            }
+                        "type": "integer",
+                        "example":1
                         }
             }
         },
@@ -422,6 +842,17 @@
                     }
                 }
             },
+            "ResponsesWithData": {
+                "type": "object",
+                "properties": {
+                    "message":{
+                        "type": "string"
+                    },
+                    "data":{
+                        "type": "object"
+                    }
+                }
+            },
             "UpdateUser": {
                 "type": "object",
                 "properties": {
@@ -438,6 +869,32 @@
                         "type": "string"
                     }
                 }
+            },
+            "CreateHomestay":{
+                "type": "object",
+                "properties": {
+                    "homestayName":{
+                        "type": "string"
+                    },
+                    "address":{
+                        "type": "string"
+                    },
+                    "description":{
+                        "type": "string"
+                    },
+                    "pricePerNight":{
+                        "type": "integer"
+                    },
+                    "images1":{
+                        "type": "string"
+                    },
+                    "images2":{
+                        "type": "string"
+                    },
+                    "images3":{
+                        "type": "string"
+                    }
+                }   
             }
         },
         "responses": {
@@ -457,7 +914,7 @@
                 }
             },
             "201":{
-                "description": "success create user",
+                "description": "success create data",
                 "content": {
                     "application/json":{
                         "schema":{
@@ -466,9 +923,6 @@
                                 "message":{
                                     "type": "string"
                                 }
-                            },
-                            "example":{
-                                "message":"create user successful"
                             }
                         }
                     }
@@ -493,7 +947,7 @@
                 }
             },
             "404":{
-                "description": "page not found or wrong url. please check again.",
+                "description": "page not found or wrong url",
                 "content": {
                     "application/json":{
                         "schema":{
@@ -504,7 +958,7 @@
                                 }
                             },
                             "example":{
-                                "message":"procces failed. cannot procces this request"
+                                "message":"procces failed. page not found or wrong url"
                             }
                         }
                     }
@@ -522,7 +976,7 @@
                                 }
                             },
                             "example":{
-                                "message": "procces failed. please check your server"
+                                "message": "procces failed. error internal server"
                             }
                         }
                     }

@@ -22,5 +22,3 @@ type Homestay struct {
 	EndDate       time.Time
 	User          userData.User `gorm:"foreignKey:UserID"`
 }
-
-// Tasks         []data.Task   `gorm:"foreignKey:ProjectID"`

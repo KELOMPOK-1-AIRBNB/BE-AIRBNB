@@ -18,6 +18,8 @@ type Core struct {
 	Images1      string
 	Images2      string
 	Images3      string
+	StartDate    time.Time
+	EndDate      time.Time
 	CostPerNight int
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
@@ -26,11 +28,12 @@ type Core struct {
 type DataInterface interface {
 	Insert(input Core) error
 	SelectAll(id uint) ([]Core, error)
-	SelectAllForUser(id uint) ([]Core, error)
+	SelectAllForUser() ([]Core, error)
 	GetHomestayById(id uint) (Core, error)
 	Delete(id uint) error
 	Update(id uint, input Core) error
 	GetUserByHomestayId(id uint) (Core, error)
+	GetMyHomestay(id uint) ([]Core, error)
 }
 
 type ServiceInterface interface {
@@ -40,4 +43,5 @@ type ServiceInterface interface {
 	GetHomestayById(id uint, idUser uint) (Core, error)
 	Delete(id uint, idUser uint) error
 	Update(id uint, idUser uint, input Core) error
+	GetMyHomestay(id uint) ([]Core, error)
 }

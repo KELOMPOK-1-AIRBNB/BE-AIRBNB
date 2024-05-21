@@ -26,13 +26,10 @@ func (p *homestayService) Create(input homestay.Core) error {
 		return err
 	}
 	if result.Role != "hoster" {
-		return errors.New("you're not hoster. switch your role first")
+		return errors.New("you're not hoster. make a host first")
 	}
-	if result.ID != input.UserID {
-		return errors.New("user not found")
-	}
-	if input.HomestayName == "" {
-		return errors.New("homestay name must be filled")
+	if input.HomestayName == "" || input.Address == "" || input.CostPerNight == 0 {
+		return errors.New("all list must be filled")
 	}
 
 	err2 := p.homestayData.Insert(input)
@@ -44,7 +41,14 @@ func (p *homestayService) Create(input homestay.Core) error {
 
 // GetAllForUser implements homestay.ServiceInterface.
 func (p *homestayService) GetAllForUser(id uint) ([]homestay.Core, error) {
-	return p.homestayData.SelectAllForUser(id)
+	result, err := p.userData.SelectProfileById(id)
+	if err != nil {
+		return nil, err
+	}
+	if result.ID != id {
+		return nil, errors.New("user not found, you must login first")
+	}
+	return p.homestayData.SelectAllForUser()
 }
 
 // GetAll implements homestay.ServiceInterface.
@@ -54,7 +58,7 @@ func (p *homestayService) GetAll(id uint) ([]homestay.Core, error) {
 		return nil, err
 	}
 	if result.Role != "hoster" {
-		return nil, errors.New("you're not hoster. switch your role first")
+		return nil, errors.New("you're not hoster. make a host first")
 	}
 	return p.homestayData.SelectAll(id)
 }
@@ -66,7 +70,7 @@ func (p *homestayService) GetHomestayById(id uint, idUser uint) (input homestay.
 		return homestay.Core{}, err
 	}
 	if result.Role != "hoster" {
-		return homestay.Core{}, errors.New("you're not hoster. switch your role first")
+		return homestay.Core{}, errors.New("you're not hoster. make a host first")
 	}
 	result2, err2 := p.homestayData.GetUserByHomestayId(id)
 	if err2 != nil {
@@ -80,12 +84,12 @@ func (p *homestayService) GetHomestayById(id uint, idUser uint) (input homestay.
 
 // Update implements homestay.ServiceInterface.
 func (p *homestayService) Update(id uint, idUser uint, input homestay.Core) error {
-	result, err := p.userData.SelectProfileById(input.UserID)
+	result, err := p.userData.SelectProfileById(idUser)
 	if err != nil {
 		return err
 	}
 	if result.Role != "hoster" {
-		return errors.New("you're not hoster. switch your role first")
+		return errors.New("you're not hoster. make a host first")
 	}
 	result2, err2 := p.homestayData.GetUserByHomestayId(id)
 	if err2 != nil {
@@ -104,7 +108,7 @@ func (p *homestayService) Delete(id uint, idUser uint) error {
 		return err
 	}
 	if result.Role != "hoster" {
-		return errors.New("you're not hoster. switch your role first")
+		return errors.New("you're not hoster. make a host first")
 	}
 	result2, err2 := p.homestayData.GetUserByHomestayId(id)
 	if err2 != nil {
@@ -114,4 +118,16 @@ func (p *homestayService) Delete(id uint, idUser uint) error {
 		return errors.New("homestay id is not yours")
 	}
 	return p.homestayData.Delete(id)
+}
+
+// GetMyHomestay implements homestay.ServiceInterface.
+func (p *homestayService) GetMyHomestay(id uint) ([]homestay.Core, error) {
+	result, err := p.userData.SelectProfileById(id)
+	if err != nil {
+		return nil, err
+	}
+	if result.Role != "hoster" {
+		return nil, errors.New("you're not hoster. make a host first")
+	}
+	return p.homestayData.GetMyHomestay(id)
 }
