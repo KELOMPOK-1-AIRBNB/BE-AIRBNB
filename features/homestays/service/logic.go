@@ -65,7 +65,7 @@ func (p *homestayService) GetAll(id uint) ([]homestay.Core, error) {
 
 // GetProjectById implements homestay.ServiceInterface.
 func (p *homestayService) GetHomestayById(id uint, idUser uint) (input homestay.Core, err error) {
-	result, err := p.userData.SelectProfileById(input.UserID)
+	result, err := p.userData.SelectProfileById(idUser)
 	if err != nil {
 		return homestay.Core{}, err
 	}
