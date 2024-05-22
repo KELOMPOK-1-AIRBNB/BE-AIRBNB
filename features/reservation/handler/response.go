@@ -7,6 +7,7 @@ type AvailableResponse struct {
 }
 
 type HistoryResponse struct {
+	ID         uint      `json:"id"`
 	UserID     uint      `json:"user_id"`
 	HomestayID uint      `json:"homestay_id"`
 	StartDate  time.Time `json:"start_date"`

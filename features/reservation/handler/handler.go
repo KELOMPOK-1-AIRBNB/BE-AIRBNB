@@ -56,6 +56,7 @@ func (r *ReservationHandler) GetHistory(c echo.Context) error {
 	var allHistoryResponse []HistoryResponse
 	for _, v := range result {
 		allHistoryResponse = append(allHistoryResponse, HistoryResponse{
+			ID:         v.ID,
 			UserID:     v.UserID,
 			HomestayID: v.HomestayID,
 			StartDate:  v.StartDate,

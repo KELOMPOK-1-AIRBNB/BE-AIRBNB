@@ -4,20 +4,20 @@ import (
 	"errors"
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/feedback"
 	homestay "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays"
-	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user"
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/reservation"
 )
 
 type feedbackService struct {
-	feedbackData feedback.DataInterface
-	userData     user.DataInterface
-	homeStay     homestay.DataInterface
+	feedbackData    feedback.DataInterface
+	reservationData reservation.DataInterface
+	homestay        homestay.DataInterface
 }
 
-func New(fd feedback.DataInterface, ud user.DataInterface, hd homestay.DataInterface) feedback.ServiceInterface {
+func New(fd feedback.DataInterface, rd reservation.DataInterface, homeStay homestay.DataInterface) feedback.ServiceInterface {
 	return &feedbackService{
-		feedbackData: fd,
-		userData:     ud,
-		homeStay:     hd,
+		feedbackData:    fd,
+		reservationData: rd,
+		homestay:        homeStay,
 	}
 }
 
@@ -26,17 +26,7 @@ func (f *feedbackService) CreateFeedback(input feedback.Core) error {
 		return errors.New("invalid input")
 	}
 
-	_, err := f.userData.SelectProfileById(input.UserID)
-	if err != nil {
-		return errors.New("user not found")
-	}
-
-	_, err = f.homeStay.GetHomestayById(input.HomestayID)
-	if err != nil {
-		return errors.New("homestay not found")
-	}
-
-	err = f.feedbackData.CreateFeedback(input)
+	err := f.feedbackData.CreateFeedback(input)
 	if err != nil {
 		return err
 	}
@@ -44,7 +34,7 @@ func (f *feedbackService) CreateFeedback(input feedback.Core) error {
 }
 
 func (f *feedbackService) GetFeedbackByHomestayId(homestayId uint) (data []feedback.Core, err error) {
-	_, err = f.homeStay.GetHomestayById(homestayId)
+	_, err = f.homestay.GetHomestayById(homestayId)
 	if err != nil {
 		return data, errors.New("homestay not found")
 	}
