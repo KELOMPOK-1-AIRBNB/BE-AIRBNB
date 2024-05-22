@@ -1,6 +1,7 @@
 package data
 
 import (
+	"errors"
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/feedback"
 	"gorm.io/gorm"
 )
@@ -16,6 +17,16 @@ func New(db *gorm.DB) feedback.DataInterface {
 }
 
 func (f *feedbackQuery) CreateFeedback(input feedback.Core) error {
+	var count int64
+	tx := f.db.Model(&Feedback{}).Where("user_id = ? AND homestay_id = ?", input.UserID, input.HomestayID).Count(&count)
+	if tx.Error != nil {
+		return tx.Error
+	}
+
+	if count > 0 {
+		return errors.New("feedback already exist")
+	}
+
 	var feedbackGorm Feedback
 
 	feedbackGorm = Feedback{
@@ -26,7 +37,7 @@ func (f *feedbackQuery) CreateFeedback(input feedback.Core) error {
 		Feedback:   input.Feedback,
 	}
 
-	tx := f.db.Create(&feedbackGorm)
+	tx = f.db.Create(&feedbackGorm)
 	if tx.Error != nil {
 		return tx.Error
 	}
@@ -48,6 +59,7 @@ func (f *feedbackQuery) GetFeedbackByHomestayId(homestayId uint) (data []feedbac
 			HomestayID: v.HomestayID,
 			Rating:     v.Rating,
 			Feedback:   v.Feedback,
+			CreatedAt:  v.CreatedAt,
 		})
 	}
 

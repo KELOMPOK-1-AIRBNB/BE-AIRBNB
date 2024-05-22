@@ -2,6 +2,9 @@ package routes
 
 import (
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/middlewares"
+	_feedbackData "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/feedback/data"
+	_feedbackHandler "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/feedback/handler"
+	_feedbackService "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/feedback/service"
 	_homestayData "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays/data"
 	_homestayHandler "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays/handler"
 	_homestayService "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays/service"
@@ -51,6 +54,13 @@ func InitRouter(e *echo.Echo, db *gorm.DB) {
 	e.POST("/reservations/availability", reservationHandler.CheckAvailability, middlewares.JWTMiddleware())
 	e.POST("/reservations", reservationHandler.CreateReservation, middlewares.JWTMiddleware())
 	e.GET("/reservations/history", reservationHandler.GetHistory, middlewares.JWTMiddleware())
+
+	feedbackData := _feedbackData.New(db)
+	feedbackService := _feedbackService.New(feedbackData, reservationData, homestayData)
+	feedbackHandler := _feedbackHandler.NewFeedbackHandler(feedbackService)
+
+	e.POST("/feedback", feedbackHandler.CreateFeedback, middlewares.JWTMiddleware())
+	e.GET("/feedback/:id", feedbackHandler.GetFeedbackByHomestayId, middlewares.JWTMiddleware())
 
 }
 
