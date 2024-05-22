@@ -106,7 +106,7 @@ func (p *homestayService) Delete(id uint, idUser uint) error {
 	if result2.UserID != idUser {
 		return errors.New("homestay id is not yours")
 	}
-	return p.homestayData.Delete(id)
+	return p.homestayData.Delete(id, idUser)
 }
 
 // GetMyHomestay implements homestay.ServiceInterface.

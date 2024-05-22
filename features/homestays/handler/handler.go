@@ -13,11 +13,13 @@ import (
 
 type HomestayHandler struct {
 	homestayService homestay.ServiceInterface
+	homestayData    homestay.DataInterface
 }
 
-func New(hh homestay.ServiceInterface) *HomestayHandler {
+func New(hh homestay.ServiceInterface, hd homestay.DataInterface) *HomestayHandler {
 	return &HomestayHandler{
 		homestayService: hh,
+		homestayData:    hd,
 	}
 }
 
@@ -177,7 +179,16 @@ func (h *HomestayHandler) DeleteHomestay(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responses.WebJSONResponse("error delete homestay: "+tx.Error(), nil))
 	}
 
+	result, err := h.homestayData.GetHomestayByUserId(uint(idToken))
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, responses.WebJSONResponse("error update homestay: "+err.Error(), nil))
+	}
+	if len(result) == 0 {
+		return c.JSON(http.StatusOK, responses.WebJSONResponse("success delete homestay. if you want add homestay, please make a host again", nil))
+
+	}
 	return c.JSON(http.StatusOK, responses.WebJSONResponse("success delete homestay", nil))
+
 }
 
 func (h *HomestayHandler) MakeHost(c echo.Context) error {

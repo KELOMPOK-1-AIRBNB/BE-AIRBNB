@@ -110,6 +110,29 @@ func (p *homestayQuery) GetHomestayById(id uint) (homestay.Core, error) {
 
 }
 
+// GetHomestayByUserId implements homestay.DataInterface.
+func (p *homestayQuery) GetHomestayByUserId(id uint) ([]homestay.Core, error) {
+	var allHomestayUser []Homestay
+	tx := p.db.Where("user_id = ?", id).Find(&allHomestayUser)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+
+	var allHomestayUserCore []homestay.Core
+	for _, v := range allHomestayUser {
+		allHomestayUserCore = append(allHomestayUserCore, homestay.Core{
+			ID:           v.ID,
+			UserID:       v.UserID,
+			HomestayName: v.HomestayName,
+			Address:      v.Address,
+			Description:  v.Description,
+			CostPerNight: v.PricePerNight,
+		})
+	}
+
+	return allHomestayUserCore, nil
+}
+
 // Update implements homestay.DataInterface.
 func (p *homestayQuery) Update(id uint, input homestay.Core) error {
 	updateList := Homestay{
@@ -129,11 +152,27 @@ func (p *homestayQuery) Update(id uint, input homestay.Core) error {
 }
 
 // Delete implements homestay.DataInterface.
-func (p *homestayQuery) Delete(id uint) error {
-	tx2 := p.db.Delete(&Homestay{}, id)
-	if tx2.Error != nil {
-		return tx2.Error
+func (p *homestayQuery) Delete(id uint, idUser uint) error {
+	tx1 := p.db.Delete(&Homestay{}, id)
+	if tx1.Error != nil {
+		return tx1.Error
 	}
+
+	result, err := p.GetHomestayByUserId(idUser)
+	if err != nil {
+		return err
+	}
+
+	role := userInterface.Core{
+		Role: "user",
+	}
+
+	if len(result) == 0 {
+		if err := p.user.UpdateRole(idUser, role); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
