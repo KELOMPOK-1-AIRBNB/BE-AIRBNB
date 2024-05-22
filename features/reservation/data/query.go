@@ -1,7 +1,7 @@
 package data
 
 import (
-	homestayData "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays/data"
+	"errors"
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/reservation"
 	"gorm.io/gorm"
 )
@@ -17,15 +17,25 @@ func New(db *gorm.DB) reservation.DataInterface {
 }
 
 func (r *reservationQuery) CheckAvailability(input reservation.Core) error {
-	var homestay []homestayData.Homestay
-	tx := r.db.Not("booked_start BETWEEN ? AND ? AND booked_end BETWEEN ? AND ?", input.StartDate, input.EndDate, input.StartDate, input.EndDate).Where("homestay_id = ?", input.HomestayID).Find(&homestay)
+
+	var reservation []Reservation
+	//tx := r.db.Not("start_date BETWEEN ? AND ? AND end_date BETWEEN ? AND ?", input.StartDate, input.EndDate, input.StartDate, input.EndDate).Where("homestay_id = ?", input.HomestayID).Find(&reservation)
+	//tx := r.db.Where("homestay_id = ?", input.HomestayID).
+	//	Not("(? BETWEEN start_date AND end_date OR ? BETWEEN start_date AND end_date OR start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?)",
+	//		input.StartDate, input.EndDate, input.StartDate, input.EndDate, input.StartDate, input.EndDate).
+	//	Find(&reservation)
+
+	tx := r.db.Where("homestay_id = ?", input.HomestayID).
+		Where("(? >= start_date AND ? <= end_date) OR (? >= start_date AND ? <= end_date)", input.StartDate, input.StartDate, input.EndDate, input.EndDate).
+		Find(&reservation)
 	if tx.Error != nil {
 		return tx.Error
 	}
-	if len(homestay) > 0 {
-		return tx.Error
+	if len(reservation) == 0 {
+		return nil
 	}
-	return nil
+
+	return errors.New("not available")
 }
 
 func (r *reservationQuery) CreateReservation(input reservation.Core) error {
@@ -44,16 +54,6 @@ func (r *reservationQuery) CreateReservation(input reservation.Core) error {
 	tx := r.db.Create(&reservationGorm)
 	if tx.Error != nil {
 		return tx.Error
-	}
-
-	updateHomestay := Reservation{
-		StartDate: input.StartDate,
-		EndDate:   input.EndDate,
-	}
-
-	tx2 := r.db.Model(&homestayData.Homestay{}).Where("id = ?", input.HomestayID).Updates(updateHomestay)
-	if tx2.Error != nil {
-		return tx2.Error
 	}
 
 	return nil
