@@ -15,3 +15,7 @@ type LoginRequest struct {
 type RoleRequest struct {
 	Role string `json:"role" form:"role"`
 }
+
+type UpdateProfilePictureRequest struct {
+	ProfilePicture string `json:"profile_picture" form:"profile_picture"`
+}

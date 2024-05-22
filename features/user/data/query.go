@@ -45,18 +45,28 @@ func (u *userQuery) SelectProfileById(id uint) (*user.Core, error) {
 	}
 
 	userCore := user.Core{
-		ID:        id,
-		Name:      userProfile.Name,
-		Email:     userProfile.Email,
-		Password:  userProfile.Password,
-		Phone:     userProfile.PhoneNumber,
-		Role:      userProfile.Role,
-		CreatedAt: userProfile.CreatedAt,
-		UpdatedAt: userProfile.UpdatedAt,
-		DeleteAt:  userProfile.DeletedAt.Time,
+		ID:             id,
+		Name:           userProfile.Name,
+		Email:          userProfile.Email,
+		Password:       userProfile.Password,
+		Phone:          userProfile.PhoneNumber,
+		Role:           userProfile.Role,
+		CreatedAt:      userProfile.CreatedAt,
+		ProfilePicture: userProfile.ProfilePicture,
+		UpdatedAt:      userProfile.UpdatedAt,
+		DeleteAt:       userProfile.DeletedAt.Time,
 	}
 
 	return &userCore, nil
+}
+
+func (u *userQuery) UpdateProfilePicture(id uint, input user.Core) error {
+	tx := u.db.Model(&User{}).Where("id = ?", id).Updates(input)
+	if tx.Error != nil {
+		return tx.Error
+	}
+
+	return nil
 }
 
 // Delete implements user.DataInterface.
