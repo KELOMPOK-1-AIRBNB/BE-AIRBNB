@@ -19,11 +19,6 @@ func New(db *gorm.DB) reservation.DataInterface {
 func (r *reservationQuery) CheckAvailability(input reservation.Core) error {
 
 	var reservation []Reservation
-	//tx := r.db.Not("start_date BETWEEN ? AND ? AND end_date BETWEEN ? AND ?", input.StartDate, input.EndDate, input.StartDate, input.EndDate).Where("homestay_id = ?", input.HomestayID).Find(&reservation)
-	//tx := r.db.Where("homestay_id = ?", input.HomestayID).
-	//	Not("(? BETWEEN start_date AND end_date OR ? BETWEEN start_date AND end_date OR start_date BETWEEN ? AND ? OR end_date BETWEEN ? AND ?)",
-	//		input.StartDate, input.EndDate, input.StartDate, input.EndDate, input.StartDate, input.EndDate).
-	//	Find(&reservation)
 
 	tx := r.db.Where("homestay_id = ?", input.HomestayID).
 		Where("(? >= start_date AND ? <= end_date) OR (? >= start_date AND ? <= end_date)", input.StartDate, input.StartDate, input.EndDate, input.EndDate).
