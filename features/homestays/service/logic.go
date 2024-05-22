@@ -68,20 +68,6 @@ func (p *homestayService) GetAll(id uint) ([]homestay.Core, error) {
 
 // GetProjectById implements homestay.ServiceInterface.
 func (p *homestayService) GetHomestayById(id uint, idUser uint) (input homestay.Core, err error) {
-	result, err := p.userData.SelectProfileById(idUser)
-	if err != nil {
-		return homestay.Core{}, err
-	}
-	if result.Role != "host" {
-		return homestay.Core{}, errors.New("you're not host. make a host first")
-	}
-	result2, err2 := p.homestayData.GetUserByHomestayId(id)
-	if err2 != nil {
-		return homestay.Core{}, err2
-	}
-	if result2.UserID != idUser {
-		return homestay.Core{}, errors.New("homestay id is not yours")
-	}
 	return p.homestayData.GetHomestayById(id)
 }
 
@@ -151,3 +137,18 @@ func (p *homestayService) MakeHost(id uint, input homestay.Core) error {
 
 	return p.homestayData.MakeHost(id, input)
 }
+
+// result, err := p.userData.SelectProfileById(idUser)
+// if err != nil {
+// 	return homestay.Core{}, err
+// }
+// if result.Role != "host" {
+// 	return homestay.Core{}, errors.New("you're not host. make a host first")
+// }
+// result2, err2 := p.homestayData.GetUserByHomestayId(id)
+// if err2 != nil {
+// 	return homestay.Core{}, err2
+// }
+// if result2.UserID != idUser {
+// 	return homestay.Core{}, errors.New("homestay id is not yours")
+// }
