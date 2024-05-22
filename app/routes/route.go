@@ -34,10 +34,10 @@ func InitRouter(e *echo.Echo, db *gorm.DB) {
 	e.POST("users/upgrade", homestayHandler.MakeHost, middlewares.JWTMiddleware())
 
 	e.GET("/homestays", homestayHandler.GetAllForUser, middlewares.JWTMiddleware())
+	e.GET("/homestays/:id", homestayHandler.GetHomestayById, middlewares.JWTMiddleware())
 	e.GET("/homestays/host", homestayHandler.GetAllHomestay, middlewares.JWTMiddleware())
 	e.POST("/homestays/host", homestayHandler.CreateHomestay, middlewares.JWTMiddleware())
 	e.GET("/homestays/host/myHomestay", homestayHandler.GetMyHomestay, middlewares.JWTMiddleware())
-	e.GET("/homestays/host/:id", homestayHandler.GetHomestayById, middlewares.JWTMiddleware())
 	e.PUT("/homestays/host/:id", homestayHandler.UpdateHomestay, middlewares.JWTMiddleware())
 	e.DELETE("/homestays/host/:id", homestayHandler.DeleteHomestay, middlewares.JWTMiddleware())
 
