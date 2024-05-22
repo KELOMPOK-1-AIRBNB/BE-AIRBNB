@@ -38,6 +38,7 @@ func InitRouter(e *echo.Echo, db *gorm.DB) {
 	e.DELETE("/users", userHandlerAPI.Delete, middlewares.JWTMiddleware())
 	e.PUT("/users", userHandlerAPI.Update, middlewares.JWTMiddleware())
 	e.POST("users/upgrade", homestayHandler.MakeHost, middlewares.JWTMiddleware())
+	e.POST("/users/changeprofilepicture", userHandlerAPI.UpdateProfilePicture, middlewares.JWTMiddleware())
 
 	e.GET("/homestays", homestayHandler.GetAllForUser, middlewares.JWTMiddleware())
 	e.GET("/homestays/:id", homestayHandler.GetHomestayById, middlewares.JWTMiddleware())

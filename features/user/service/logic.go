@@ -20,6 +20,19 @@ func New(ud user.DataInterface, hash encrypts.HashInterface) user.ServiceInterfa
 	}
 }
 
+func (u *userService) UpdateProfilePicture(id uint, input user.Core) error {
+	result, err := u.userData.SelectProfileById(id)
+	if err != nil {
+		return err
+	}
+
+	if result.DeleteAt.IsZero() {
+		return u.userData.UpdateProfilePicture(id, input)
+	} else {
+		return errors.New("user not found. you must login first")
+	}
+}
+
 // Create implements user.ServiceInterface.
 func (u *userService) Create(input user.Core) error {
 	if input.Name == "" || input.Email == "" || input.Password == "" || input.Phone == "" {

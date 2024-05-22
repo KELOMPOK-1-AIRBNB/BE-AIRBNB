@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/utils/upload"
 	"net/http"
 	"strings"
 
@@ -19,6 +20,40 @@ func New(us user.ServiceInterface) *UserHandler {
 	return &UserHandler{
 		userService: us,
 	}
+}
+
+func (uh *UserHandler) UpdateProfilePicture(c echo.Context) error {
+	idToken := middlewares.ExtractTokenUserId(c)
+	_, err := uh.userService.GetProfileUser(uint(idToken))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("error read data: "+err.Error(), nil))
+	}
+
+	formHeader, err := c.FormFile("profile_picture")
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("error bind data: "+err.Error(), nil))
+	}
+
+	formFile, err := formHeader.Open()
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("error formfile: "+err.Error(), nil))
+	}
+
+	uploadUrl, err := upload.ImageUploadHelper(formFile)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("error upload: "+err.Error(), nil))
+	}
+
+	inputCore := user.Core{
+		ProfilePicture: uploadUrl,
+	}
+
+	errUpdate := uh.userService.UpdateProfilePicture(uint(idToken), inputCore)
+	if errUpdate != nil {
+		return c.JSON(http.StatusInternalServerError, responses.WebJSONResponse("error update data: "+errUpdate.Error(), nil))
+	}
+
+	return c.JSON(http.StatusOK, responses.WebJSONResponse("success upload", uploadUrl))
 }
 
 func (uh *UserHandler) Register(c echo.Context) error {
@@ -54,10 +89,11 @@ func (uh *UserHandler) GetProfileUser(c echo.Context) error {
 	}
 
 	userResponse := UserResponse{
-		ID:    result.ID,
-		Name:  result.Name,
-		Email: result.Email,
-		Role:  result.Role,
+		ID:             result.ID,
+		Name:           result.Name,
+		Email:          result.Email,
+		Role:           result.Role,
+		ProfilePicture: result.ProfilePicture,
 	}
 	return c.JSON(http.StatusOK, responses.WebJSONResponse("success read data", userResponse))
 }

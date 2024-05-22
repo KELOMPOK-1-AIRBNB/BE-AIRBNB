@@ -3,15 +3,16 @@ package user
 import "time"
 
 type Core struct {
-	ID        uint
-	Name      string
-	Email     string
-	Password  string
-	Phone     string
-	Role      string
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeleteAt  time.Time
+	ID             uint
+	Name           string
+	Email          string
+	Password       string
+	Phone          string
+	Role           string
+	ProfilePicture string
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
+	DeleteAt       time.Time
 }
 
 type DataInterface interface {
@@ -21,6 +22,7 @@ type DataInterface interface {
 	Update(id uint, input Core) error
 	UpdateRole(id uint, input Core) error
 	Login(email string) (*Core, error)
+	UpdateProfilePicture(id uint, input Core) error
 }
 
 type ServiceInterface interface {
@@ -29,4 +31,5 @@ type ServiceInterface interface {
 	Delete(id uint) error
 	Update(id uint, input Core) error
 	Login(email, password string) (data *Core, token string, err error)
+	UpdateProfilePicture(id uint, input Core) error
 }
