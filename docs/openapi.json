@@ -772,6 +772,316 @@
                     }
                 }
             }
+        },
+        "/reservations/availability":{
+            "post":{
+                "security": [
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "tags": ["reservations"],
+                "summary": "check reservation availability",
+                "requestBody":{
+                    "required": true,
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/reservationFeature"
+                            },
+                            "examples": {
+                                "availableRequest":{
+                                    "value":{
+                                        "homestayID":1,
+                                        "startDate":"2006-01-02",
+                                        "endDate":"2006-01-05"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description":"success check availability",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/components/responses/200"
+                                },
+                                "examples": {
+                                    "statusCheck":{
+                                        "value":{
+                                            "message":"available"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "$ref": "#/components/responses/400"
+                    },
+                    "500":{
+                        "description": "status not available",
+                        "content": {
+                            "application/json":{
+                               "examples": {
+                                    "statusCheck":{
+                                        "value":{
+                                            "message":"not available"
+                                        }
+                                    }                                
+                               }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/reservations":{
+            "post":{
+                "security": [
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "tags": ["reservations"],
+                "summary": "create reservation",
+                "requestBody":{
+                    "required": true,
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/reservationFeature"
+                            },
+                            "examples": {
+                                "availableRequest":{
+                                    "value":{
+                                        "homestayID":1,
+                                        "startDate":"2006-01-02",
+                                        "endDate":"2006-01-05"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description":"success create reservation",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/components/responses/200"
+                                },
+                                "examples": {
+                                    "statusCheck":{
+                                        "value":{
+                                            "message":"success create reservation"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "$ref": "#/components/responses/400"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
+        "/reservations/history":{
+            "get":{
+                "security": [
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "tags": ["reservations"],
+                "summary": "reservation history",
+                "responses": {
+                    "200":{
+                        "description": "Success get all reservation",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "allOf":[
+                                        {
+                                            "$ref": "#/components/schemas/ResponsesWithData"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "message":{
+                                                    "type": "string",
+                                                    "example":"success get all reservation"
+                                                },
+                                                "data":{
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "homestayID" :{
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "startDate":{
+                                                            "type": "string",
+                                                            "example":"2006-01-02"
+                                                        },
+                                                        "endDate":{
+                                                            "type": "string",
+                                                            "example":"2006-01-05"
+                                                        },
+                                                        "totalPrice":{
+                                                            "type": "integer",
+                                                            "example":120000
+                                                        },
+                                                        "status":{
+                                                            "type": "string",
+                                                            "example":"success"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "$ref": "#/components/responses/404"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }                
+            }
+        },
+        "/feedback":{
+            "post":{
+                "security": [
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "tags": ["feedbacks"],
+                "summary": "create feedback",
+                "requestBody":{
+                    "required": true,
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/createFeedback"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description":"success create feedback",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/components/responses/200"
+                                },
+                                "examples": {
+                                    "statusCheck":{
+                                        "value":{
+                                            "message":"success create feedback"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "$ref": "#/components/responses/400"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }                
+            }
+        },
+        "/feedback/{id}":{
+            "get":{
+                "security": [
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "tags": ["feedbacks"],
+                "summary": "get feedback by homestay id",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/idHomestay"
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Success get feedback by homestay id",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "allOf":[
+                                        {
+                                            "$ref": "#/components/schemas/ResponsesWithData"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "message":{
+                                                    "type": "string",
+                                                    "example":"success get feedback by homestay id"
+                                                },
+                                                "data":{
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "feedbackID" :{
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "userID" :{
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "homestayID" :{
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "rating" :{
+                                                            "type": "integer",
+                                                            "example": 5
+                                                        },
+                                                        "feedback":{
+                                                            "type": "string",
+                                                            "example":"tempatnya nyaman"
+                                                        },
+                                                        "createdAt":{
+                                                            "type": "string",
+                                                            "example":"2006-01-02"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "$ref": "#/components/responses/404"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -884,6 +1194,41 @@
                         "type": "string"
                     }
                 }   
+            },
+            "reservationFeature":{
+                "type": "object",
+                "properties": {
+                    "homestayID":{
+                        "type": "integer"
+                    },
+                    "startDate":{
+                        "type": "string"
+                    },
+                    "endDate":{
+                        "type": "string"
+                    }
+                }
+            },
+            "createFeedback":{
+                "type":"object",
+                "properties": {
+                    "userID" :{
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "homestayID" :{
+                        "type": "integer",
+                        "example": 1
+                    },                                                   
+                    "rating":{
+                        "type": "integer",
+                        "example":5
+                    },
+                    "feedback":{
+                        "type": "string",
+                        "example":"tempatnya nyaman"
+                    }
+                }
             }
         },
         "responses": {
