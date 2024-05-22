@@ -6,6 +6,7 @@ import (
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/utils/responses"
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"time"
 )
 
 type ReservationHandler struct {
@@ -26,16 +27,21 @@ func (r *ReservationHandler) CreateReservation(c echo.Context) error {
 	if errBind != nil {
 		return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("error bind data: "+errBind.Error(), nil))
 	}
+
+	var dateLayout = "2006-01-02"
+	startDate, _ := time.Parse(dateLayout, newRequest.StartDate)
+	endDate, _ := time.Parse(dateLayout, newRequest.EndDate)
+
 	requestCore := reservation.Core{
 		UserID:     uint(idToken),
 		HomestayID: newRequest.HomestayID,
-		StartDate:  newRequest.StartDate,
-		EndDate:    newRequest.EndDate,
+		StartDate:  startDate,
+		EndDate:    endDate,
 	}
 
 	errCreate := r.ReservationService.CreateReservation(requestCore)
 	if errCreate != nil {
-		return c.JSON(http.StatusInternalServerError, responses.WebJSONResponse("error create reservation: "+errCreate.Error(), nil))
+		return c.JSON(http.StatusInternalServerError, responses.WebJSONResponse("error create reservation: ", errCreate.Error()))
 	}
 	return c.JSON(http.StatusCreated, responses.WebJSONResponse("success create reservation", nil))
 }
@@ -70,15 +76,19 @@ func (r *ReservationHandler) CheckAvailability(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("error bind data: "+errBind.Error(), nil))
 	}
 
+	var dateLayout = "2006-01-02"
+	startDate, _ := time.Parse(dateLayout, newRequest.StartDate)
+	endDate, _ := time.Parse(dateLayout, newRequest.EndDate)
+
 	requestCore := reservation.Core{
 		HomestayID: newRequest.HomestayID,
-		StartDate:  newRequest.StartDate,
-		EndDate:    newRequest.EndDate,
+		StartDate:  startDate,
+		EndDate:    endDate,
 	}
 
 	errCheck := r.ReservationService.CheckAvailability(requestCore)
 	if errCheck != nil {
-		return c.JSON(http.StatusInternalServerError, responses.WebJSONResponse("error check availability: "+errCheck.Error(), nil))
+		return c.JSON(http.StatusInternalServerError, responses.WebJSONResponse("success check availability: ", "not available"))
 	}
 
 	var response = AvailableResponse{

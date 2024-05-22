@@ -5,7 +5,6 @@ import (
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/databases"
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/migrations"
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/routes"
-
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -22,6 +21,7 @@ func main() {
 	routes.InitRouter(e, dbMySql)
 	e.Use(middleware.Logger())
 	e.Use(middleware.CORS())
+
 	// start server and port
 	e.Logger.Fatal(e.Start(":8080"))
 }

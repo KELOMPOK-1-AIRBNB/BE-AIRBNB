@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	homestay "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays"
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/reservation"
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user"
@@ -21,6 +22,10 @@ func New(rd reservation.DataInterface, ud user.DataInterface, hd homestay.DataIn
 }
 
 func (r *reservationService) CheckAvailability(input reservation.Core) error {
+	if input.HomestayID == 0 || input.UserID == 0 || input.StartDate.IsZero() || input.EndDate.IsZero() {
+		return errors.New("invalid input")
+	}
+
 	err := r.reservationData.CheckAvailability(input)
 	if err != nil {
 		return err
@@ -33,25 +38,25 @@ func (r *reservationService) GetHistory(UserId uint) (data []reservation.Core, e
 }
 
 func (r *reservationService) CreateReservation(input reservation.Core) error {
-	// check userid exist
+	if input.HomestayID == 0 || input.UserID == 0 || input.StartDate.IsZero() || input.EndDate.IsZero() {
+		return errors.New("invalid input")
+	}
+
 	_, err := r.userData.SelectProfileById(input.UserID)
 	if err != nil {
 		return err
 	}
 
-	// check homestay exist
 	homestay, err := r.homestayData.GetHomestayById(input.HomestayID)
 	if err != nil {
 		return err
 	}
 
-	// check homestay availability
 	err = r.reservationData.CheckAvailability(input)
 	if err != nil {
 		return err
 	}
 
-	// calculate homestay price * price per night from homestay
 	input.TotalPrice = int(input.EndDate.Sub(input.StartDate).Hours()/24) * int(homestay.CostPerNight)
 
 	// set status

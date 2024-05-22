@@ -5,6 +5,9 @@ import (
 	_homestayData "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays/data"
 	_homestayHandler "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays/handler"
 	_homestayService "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays/service"
+	_reservationData "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/reservation/data"
+	_reservationHandler "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/reservation/handler"
+	_reservationService "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/reservation/service"
 	_userData "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user/data"
 	_userHandler "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user/handler"
 	_userService "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user/service"
@@ -40,6 +43,14 @@ func InitRouter(e *echo.Echo, db *gorm.DB) {
 	e.GET("/homestays/host/myHomestay", homestayHandler.GetMyHomestay, middlewares.JWTMiddleware())
 	e.PUT("/homestays/host/:id", homestayHandler.UpdateHomestay, middlewares.JWTMiddleware())
 	e.DELETE("/homestays/host/:id", homestayHandler.DeleteHomestay, middlewares.JWTMiddleware())
+
+	reservationData := _reservationData.New(db)
+	reservationService := _reservationService.New(reservationData, dataService, homestayData)
+	reservationHandler := _reservationHandler.NewReservationHandler(reservationService)
+
+	e.POST("/reservations/availability", reservationHandler.CheckAvailability, middlewares.JWTMiddleware())
+	e.POST("/reservations", reservationHandler.CreateReservation, middlewares.JWTMiddleware())
+	e.GET("/reservations/history", reservationHandler.GetHistory, middlewares.JWTMiddleware())
 
 }
 

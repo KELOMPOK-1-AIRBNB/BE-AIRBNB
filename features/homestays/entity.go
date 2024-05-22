@@ -18,8 +18,6 @@ type Core struct {
 	Images1      string
 	Images2      string
 	Images3      string
-	StartDate    time.Time
-	EndDate      time.Time
 	CostPerNight int
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
