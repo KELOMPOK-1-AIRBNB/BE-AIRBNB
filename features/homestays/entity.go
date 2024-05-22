@@ -30,11 +30,12 @@ type DataInterface interface {
 	SelectAll(id uint) ([]Core, error)
 	SelectAllForUser() ([]Core, error)
 	GetHomestayById(id uint) (Core, error)
-	Delete(id uint) error
+	Delete(id uint, idUser uint) error
 	Update(id uint, input Core) error
 	GetUserByHomestayId(id uint) (Core, error)
 	GetMyHomestay(id uint) ([]Core, error)
 	MakeHost(id uint, input Core) error
+	GetHomestayByUserId(id uint) ([]Core, error)
 }
 
 type ServiceInterface interface {

@@ -57,6 +57,7 @@ func (uh *UserHandler) GetProfileUser(c echo.Context) error {
 		ID:    result.ID,
 		Name:  result.Name,
 		Email: result.Email,
+		Role:  result.Role,
 	}
 	return c.JSON(http.StatusOK, responses.WebJSONResponse("success read data", userResponse))
 }

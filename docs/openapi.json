@@ -394,6 +394,79 @@
                 }
             }
         },
+        "/homestays/{id}":{
+            "get":{
+                "security": [
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "tags": ["homestays"],
+                "summary": "get homestay by id",
+                "description": "get homestay using id at path parameter. only return 1 data",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/idHomestay"
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Success get homestay",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "allOf":[
+                                        {
+                                            "$ref": "#/components/schemas/ResponsesWithData"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "message":{
+                                                    "type": "string",
+                                                    "example":"success get homestay"
+                                                },
+                                                "data":{
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "homestayID" :{
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "homestayName":{
+                                                            "type": "string",
+                                                            "example":"puncak cottage"
+                                                        },
+                                                        "address":{
+                                                            "type": "string",
+                                                            "example":"Bandung"
+                                                        },
+                                                        "pricePerNight":{
+                                                            "type": "integer",
+                                                            "example":120000
+                                                        },
+                                                        "description":{
+                                                            "type": "string",
+                                                            "example":"1 queen size bed, 1 toilet, TV, wifi, etc"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "404":{
+                        "$ref": "#/components/responses/404"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
         "/homestays/host":{
             "get":{
                 "security": [
@@ -582,77 +655,6 @@
             }
         },
         "/homestays/host/{id}":{
-            "get":{
-                "security": [
-                    {
-                        "JWTAuth":[]
-                    }
-                ],
-                "tags": ["homestays"],
-                "summary": "get homestay by id",
-                "description": "get homestay using id at path parameter. only return 1 data",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/idHomestay"
-                    }
-                ],
-                "responses": {
-                    "200":{
-                        "description": "Success get homestay",
-                        "content": {
-                            "application/json":{
-                                "schema":{
-                                    "allOf":[
-                                        {
-                                            "$ref": "#/components/schemas/ResponsesWithData"
-                                        },
-                                        {
-                                            "type": "object",
-                                            "properties": {
-                                                "message":{
-                                                    "type": "string",
-                                                    "example":"success get homestay"
-                                                },
-                                                "data":{
-                                                    "type": "object",
-                                                    "properties": {
-                                                        "homestayID" :{
-                                                            "type": "integer",
-                                                            "example": 1
-                                                        },
-                                                        "homestayName":{
-                                                            "type": "string",
-                                                            "example":"puncak cottage"
-                                                        },
-                                                        "address":{
-                                                            "type": "string",
-                                                            "example":"Bandung"
-                                                        },
-                                                        "pricePerNight":{
-                                                            "type": "integer",
-                                                            "example":120000
-                                                        },
-                                                        "description":{
-                                                            "type": "string",
-                                                            "example":"1 queen size bed, 1 toilet, TV, wifi, etc"
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "404":{
-                        "$ref": "#/components/responses/404"
-                    },
-                    "500":{
-                        "$ref": "#/components/responses/500"
-                    }
-                }
-            },
             "put":{
                 "security": [
                     {
@@ -780,6 +782,7 @@
                 "scheme": "bearer",
                 "bearerFormat": "JWT"
             }
+
         },
         "parameters": {
             "idHomestay": {              

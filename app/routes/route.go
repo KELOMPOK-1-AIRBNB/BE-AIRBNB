@@ -23,7 +23,7 @@ func InitRouter(e *echo.Echo, db *gorm.DB) {
 
 	homestayData := _homestayData.New(db, dataService)
 	homestayService := _homestayService.New(homestayData, dataService)
-	homestayHandler := _homestayHandler.New(homestayService)
+	homestayHandler := _homestayHandler.New(homestayService, homestayData)
 
 	e.POST("/login", userHandlerAPI.Login)
 
