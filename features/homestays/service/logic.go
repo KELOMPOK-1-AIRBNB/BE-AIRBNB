@@ -25,7 +25,7 @@ func (p *homestayService) Create(input homestay.Core) error {
 	if err != nil {
 		return err
 	}
-	if result.Role != "hoster" {
+	if result.Role != "host" {
 		return errors.New("you're not host. make a host first")
 	}
 	if input.HomestayName == "" || input.Address == "" || input.CostPerNight == 0 || input.Description == "" || input.Images1 == "" {
@@ -47,6 +47,9 @@ func (p *homestayService) GetAllForUser(id uint) ([]homestay.Core, error) {
 	}
 	if result.ID != id {
 		return nil, errors.New("user not found, you must login first")
+	}
+	if result.Role == "host" {
+		return nil, errors.New("access denied. you're host now. please access https://auf.my.id/host")
 	}
 	return p.homestayData.SelectAllForUser()
 }
