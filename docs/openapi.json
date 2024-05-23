@@ -956,15 +956,15 @@
                         "content":{
                             "application/json":{
                                 "schema":{
-                                    "$ref": "#/components/responses/200"
-                                },
-                                "examples": {
-                                    "statusCheck":{
-                                        "value":{
-                                            "message":"available"
+                                    "oneOf":[
+                                        {
+                                            "$ref": "#/components/schemas/availableResponse"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/NotAvailableResponse"
                                         }
-                                    }
-                                }
+                                    ]
+                                }                                
                             }
                         }
                     },
@@ -972,18 +972,7 @@
                         "$ref": "#/components/responses/400"
                     },
                     "500":{
-                        "description": "status not available",
-                        "content": {
-                            "application/json":{
-                               "examples": {
-                                    "statusCheck":{
-                                        "value":{
-                                            "message":"not available"
-                                        }
-                                    }                                
-                               }
-                            }
-                        }
+                        "$ref": "#/components/responses/500"
                     }
                 }
             }
@@ -1368,6 +1357,24 @@
                     "feedback":{
                         "type": "string",
                         "example":"tempatnya nyaman"
+                    }
+                }
+            },
+            "availableResponse":{
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "available"
+                    }
+                }
+            },
+            "NotAvailableResponse": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                        "type": "string",
+                        "example": "not available"
                     }
                 }
             }
