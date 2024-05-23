@@ -55,11 +55,12 @@ func (p *homestayQuery) SelectAllForUser() ([]homestay.Core, error) {
 			ID:           v.ID,
 			UserID:       v.UserID,
 			HomestayName: v.HomestayName,
-			Address:      v.Address,
 			Description:  v.Description,
+			Address:      v.Address,
+			Images1:      v.Images1,
+			Images2:      v.Images2,
+			Images3:      v.Images3,
 			CostPerNight: v.PricePerNight,
-			CreatedAt:    v.CreatedAt,
-			UpdatedAt:    v.UpdatedAt,
 		})
 	}
 
@@ -80,8 +81,11 @@ func (p *homestayQuery) SelectAll(id uint) ([]homestay.Core, error) {
 			ID:           v.ID,
 			UserID:       v.UserID,
 			HomestayName: v.HomestayName,
-			Address:      v.Address,
 			Description:  v.Description,
+			Address:      v.Address,
+			Images1:      v.Images1,
+			Images2:      v.Images2,
+			Images3:      v.Images3,
 			CostPerNight: v.PricePerNight,
 		})
 	}
@@ -101,8 +105,11 @@ func (p *homestayQuery) GetHomestayById(id uint) (homestay.Core, error) {
 		ID:           id,
 		UserID:       homestayId.UserID,
 		HomestayName: homestayId.HomestayName,
-		Address:      homestayId.Address,
 		Description:  homestayId.Description,
+		Address:      homestayId.Address,
+		Images1:      homestayId.Images1,
+		Images2:      homestayId.Images2,
+		Images3:      homestayId.Images3,
 		CostPerNight: homestayId.PricePerNight,
 	}
 
@@ -124,8 +131,11 @@ func (p *homestayQuery) GetHomestayByUserId(id uint) ([]homestay.Core, error) {
 			ID:           v.ID,
 			UserID:       v.UserID,
 			HomestayName: v.HomestayName,
-			Address:      v.Address,
 			Description:  v.Description,
+			Address:      v.Address,
+			Images1:      v.Images1,
+			Images2:      v.Images2,
+			Images3:      v.Images3,
 			CostPerNight: v.PricePerNight,
 		})
 	}

@@ -1,9 +1,10 @@
 package handler
 
 import (
-	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/utils/upload"
 	"net/http"
 	"strconv"
+
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/utils/upload"
 
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/app/middlewares"
 	homestay "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays"
@@ -88,6 +89,7 @@ func (h *HomestayHandler) GetAllForUser(c echo.Context) error {
 			HomestayName:  v.HomestayName,
 			Address:       v.Address,
 			PricePerNight: v.CostPerNight,
+			Images1:       v.Images1,
 		})
 	}
 	return c.JSON(http.StatusOK, responses.WebJSONResponse("success get all homestay", allForUserResponse))
@@ -107,6 +109,7 @@ func (h *HomestayHandler) GetAllHomestay(c echo.Context) error {
 			HomestayName:  v.HomestayName,
 			Address:       v.Address,
 			PricePerNight: v.CostPerNight,
+			Images1:       v.Images1,
 		})
 	}
 
@@ -157,8 +160,11 @@ func (h *HomestayHandler) GetHomestayById(c echo.Context) error {
 		ID:            uint(idConv),
 		HomestayName:  result.HomestayName,
 		Address:       result.Address,
-		PricePerNight: result.CostPerNight,
 		Description:   result.Description,
+		PricePerNight: result.CostPerNight,
+		Images1:       result.Images1,
+		Images2:       result.Images2,
+		Images3:       result.Images3,
 	}
 	return c.JSON(http.StatusOK, responses.WebJSONResponse("success get homestay", responseResult))
 }
