@@ -224,7 +224,7 @@
                                 "$ref": "#/components/schemas/UpdateUser"
                             },
                             "examples": {
-                                "updateUser":{
+                                "update_user":{
                                     "value":{
                                         "name":"Eza",
                                         "email":"eza@mail.com",
@@ -245,7 +245,7 @@
                                     "$ref": "#/components/responses/200"
                                 },
                                 "examples":{
-                                    "successfulUpdate":{
+                                    "successful_update":{
                                         "value":{
                                             "message":"success update user"
                                         }
@@ -262,7 +262,7 @@
                                     "$ref": "#/components/responses/400"
                                 },
                                 "examples":{
-                                    "failedUpdate":{
+                                    "failed_update":{
                                         "value":{
                                             "message":"failed update. input your changes correctly"
                                         }
@@ -296,7 +296,7 @@
                                     "$ref": "#/components/responses/200"
                                 },
                                 "examples":{
-                                    "successfulUpdate":{
+                                    "successful_delete":{
                                         "value":{
                                             "message":"success delete user"
                                         }
@@ -313,7 +313,7 @@
                                     "$ref": "#/components/responses/404"
                                 },
                                 "examples":{
-                                    "failedDelete":{
+                                    "failed_delete":{
                                         "value":{
                                             "message":"failed delete. user not found"
                                         }
@@ -349,7 +349,7 @@
                                 "homestayName":"puncak dieng",
                                 "address":"Bandung",
                                 "description":"1 queen size bed, 1 toilet, TV, wifi, etc",
-                                "pricePerNight":145000,
+                                "price_per_night":145000,
                                 "images1":"url images1",
                                 "images2":"url images2",
                                 "images3":"url images3"
@@ -480,7 +480,7 @@
                                                 "data":{
                                                     "type": "object",
                                                     "properties": {
-                                                        "homestayID" :{
+                                                        "homestay_id" :{
                                                             "type": "integer",
                                                             "example": 1
                                                         },
@@ -492,7 +492,7 @@
                                                             "type": "string",
                                                             "example":"Bandung"
                                                         },
-                                                        "pricePerNight":{
+                                                        "price_per_night":{
                                                             "type": "integer",
                                                             "example":120000
                                                         }
@@ -549,7 +549,7 @@
                                                 "data":{
                                                     "type": "object",
                                                     "properties": {
-                                                        "homestayID" :{
+                                                        "homestay_id" :{
                                                             "type": "integer",
                                                             "example": 1
                                                         },
@@ -561,7 +561,7 @@
                                                             "type": "string",
                                                             "example":"Bandung"
                                                         },
-                                                        "pricePerNight":{
+                                                        "price_per_night":{
                                                             "type": "integer",
                                                             "example":120000
                                                         },
@@ -617,7 +617,7 @@
                                                 "data":{
                                                     "type": "object",
                                                     "properties": {
-                                                        "homestayID" :{
+                                                        "homestay_id" :{
                                                             "type": "integer",
                                                             "example": 1
                                                         },
@@ -629,7 +629,7 @@
                                                             "type": "string",
                                                             "example":"Bandung"
                                                         },
-                                                        "pricePerNight":{
+                                                        "price_per_night":{
                                                             "type": "integer",
                                                             "example":120000
                                                         }
@@ -670,7 +670,7 @@
                                 "homestayName":"puncak dieng",
                                 "address":"Bandung",
                                 "description":"1 queen size bed, 1 toilet, TV, wifi, etc",
-                                "pricePerNight":145000
+                                "price_per_night":145000
                             }
                         },
                         "multipart/form-data": {
@@ -753,7 +753,7 @@
                                                 "data":{
                                                     "type": "object",
                                                     "properties": {
-                                                        "homestayID" :{
+                                                        "homestay_id" :{
                                                             "type": "integer",
                                                             "example": 1
                                                         },
@@ -765,7 +765,7 @@
                                                             "type": "string",
                                                             "example":"Bandung"
                                                         },
-                                                        "pricePerNight":{
+                                                        "price_per_night":{
                                                             "type": "integer",
                                                             "example":120000
                                                         }
@@ -812,7 +812,7 @@
                                 "homestayName":"bromo cottage",
                                 "address":"lumajang",
                                 "description":"1 king size bed, 2 toilet, TV, wifi, etc",
-                                "pricePerNight":375000                                
+                                "price_per_night":375000                                
                             }
                         },
                         "multipart/form-data": {
@@ -1215,7 +1215,7 @@
                                                             "type": "string",
                                                             "example":"tempatnya nyaman"
                                                         },
-                                                        "created_att":{
+                                                        "created_at":{
                                                             "type": "string",
                                                             "example":"2006-01-02"
                                                         }
@@ -1335,7 +1335,7 @@
                     "description":{
                         "type": "string"
                     },
-                    "pricePerNight":{
+                    "price_per_night":{
                         "type": "integer"
                     }                    
                 }   
@@ -1343,7 +1343,7 @@
             "reservationFeature":{
                 "type": "object",
                 "properties": {
-                    "homestayID":{
+                    "homestay_id":{
                         "type": "integer"
                     },
                     "startDate":{
