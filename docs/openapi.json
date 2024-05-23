@@ -407,13 +407,13 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "profilePhoto": {
+                                "profile_picture": {
                                     "type": "string",
                                     "format": "binary",
                                     "description": "The profile picture file to be uploaded"
                                 }
                             },
-                            "required": ["profilePicture"]
+                            "required": ["profile_picture"]
                             }
                         }
                     }
@@ -938,9 +938,9 @@
                             "examples": {
                                 "availableRequest":{
                                     "value":{
-                                        "homestayID":1,
-                                        "startDate":"2006-01-02",
-                                        "endDate":"2006-01-05"
+                                        "homestay_id":1,
+                                        "start_date":"2006-01-02",
+                                        "end_date":"2006-01-05"
                                     }
                                 }
                             }
@@ -1004,9 +1004,9 @@
                             "examples": {
                                 "availableRequest":{
                                     "value":{
-                                        "homestayID":1,
-                                        "startDate":"2006-01-02",
-                                        "endDate":"2006-01-05"
+                                        "homestay_id":1,
+                                        "start_date":"2006-01-02",
+                                        "end_date":"2006-01-05"
                                     }
                                 }
                             }
@@ -1051,7 +1051,7 @@
                 "summary": "reservation history",
                 "responses": {
                     "200":{
-                        "description": "Success get all reservation",
+                        "description": "Success get all history",
                         "content": {
                             "application/json":{
                                 "schema":{
@@ -1069,19 +1069,27 @@
                                                 "data":{
                                                     "type": "object",
                                                     "properties": {
-                                                        "homestayID" :{
+                                                        "id": {
                                                             "type": "integer",
                                                             "example": 1
                                                         },
-                                                        "startDate":{
+                                                        "user_id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "homestay_id" :{
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "start_date":{
                                                             "type": "string",
                                                             "example":"2006-01-02"
                                                         },
-                                                        "endDate":{
+                                                        "end_date":{
                                                             "type": "string",
                                                             "example":"2006-01-05"
                                                         },
-                                                        "totalPrice":{
+                                                        "total_price":{
                                                             "type": "integer",
                                                             "example":120000
                                                         },
@@ -1169,7 +1177,7 @@
                 ],
                 "responses": {
                     "200":{
-                        "description": "Success get feedback by homestay id",
+                        "description": "Success get all feedback",
                         "content": {
                             "application/json":{
                                 "schema":{
@@ -1187,15 +1195,15 @@
                                                 "data":{
                                                     "type": "object",
                                                     "properties": {
-                                                        "feedbackID" :{
+                                                        "id" :{
                                                             "type": "integer",
                                                             "example": 1
                                                         },
-                                                        "userID" :{
+                                                        "user_id" :{
                                                             "type": "integer",
                                                             "example": 1
                                                         },
-                                                        "homestayID" :{
+                                                        "homestay_id" :{
                                                             "type": "integer",
                                                             "example": 1
                                                         },
@@ -1207,7 +1215,7 @@
                                                             "type": "string",
                                                             "example":"tempatnya nyaman"
                                                         },
-                                                        "createdAt":{
+                                                        "created_att":{
                                                             "type": "string",
                                                             "example":"2006-01-02"
                                                         }
@@ -1349,11 +1357,7 @@
             "createFeedback":{
                 "type":"object",
                 "properties": {
-                    "userID" :{
-                        "type": "integer",
-                        "example": 1
-                    },
-                    "homestayID" :{
+                    "homestay_id" :{
                         "type": "integer",
                         "example": 1
                     },                                                   
