@@ -21,6 +21,7 @@ func main() {
 	routes.InitRouter(e, dbMySql)
 	e.Use(middleware.Logger())
 	e.Use(middleware.CORS())
+	e.Use(middleware.RemoveTrailingSlash())
 
 	// start server and port
 	e.Logger.Fatal(e.Start(":8080"))
