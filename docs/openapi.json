@@ -463,11 +463,6 @@
         },
         "/homestays":{
             "get":{
-                "security": [
-                    {
-                        "JWTAuth":[]
-                    }
-                ],
                 "tags": [
                     "homestays"
                 ],
@@ -528,12 +523,7 @@
             }
         },
         "/homestays/{id}":{
-            "get":{
-                "security": [
-                    {
-                        "JWTAuth":[]
-                    }
-                ],
+            "get":{                
                 "tags": ["homestays"],
                 "summary": "get homestay by id",
                 "description": "get homestay using id at path parameter. only return 1 data",

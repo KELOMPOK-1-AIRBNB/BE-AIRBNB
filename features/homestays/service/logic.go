@@ -57,7 +57,7 @@ func (p *homestayService) GetAll(id uint) ([]homestay.Core, error) {
 }
 
 // GetProjectById implements homestay.ServiceInterface.
-func (p *homestayService) GetHomestayById(id uint, idUser uint) (input homestay.Core, err error) {
+func (p *homestayService) GetHomestayById(id uint) (input homestay.Core, err error) {
 	return p.homestayData.GetHomestayById(id)
 }
 

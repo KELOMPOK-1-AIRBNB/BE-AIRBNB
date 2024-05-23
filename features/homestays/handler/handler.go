@@ -145,8 +145,7 @@ func (h *HomestayHandler) GetHomestayById(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, responses.WebJSONResponse("error convert id:"+errConv.Error(), nil))
 	}
 
-	idToken := middlewares.ExtractTokenUserId(c)
-	result, err := h.homestayService.GetHomestayById(uint(idConv), uint(idToken))
+	result, err := h.homestayService.GetHomestayById(uint(idConv))
 	var emptyHomestay homestay.Core
 	if err != nil {
 		if result == emptyHomestay {
