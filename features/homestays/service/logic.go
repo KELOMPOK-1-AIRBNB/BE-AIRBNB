@@ -40,17 +40,7 @@ func (p *homestayService) Create(input homestay.Core) error {
 }
 
 // GetAllForUser implements homestay.ServiceInterface.
-func (p *homestayService) GetAllForUser(id uint) ([]homestay.Core, error) {
-	result, err := p.userData.SelectProfileById(id)
-	if err != nil {
-		return nil, err
-	}
-	if result.ID != id {
-		return nil, errors.New("user not found, you must login first")
-	}
-	if result.Role == "host" {
-		return nil, errors.New("access denied. you're host now. please access https://auf.my.id/host")
-	}
+func (p *homestayService) GetAllForUser() ([]homestay.Core, error) {
 	return p.homestayData.SelectAllForUser()
 }
 

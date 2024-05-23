@@ -39,7 +39,7 @@ type DataInterface interface {
 type ServiceInterface interface {
 	Create(input Core) error
 	GetAll(id uint) ([]Core, error)
-	GetAllForUser(id uint) ([]Core, error)
+	GetAllForUser() ([]Core, error)
 	GetHomestayById(id uint, idUser uint) (Core, error)
 	Delete(id uint, idUser uint) error
 	Update(id uint, idUser uint, input Core) error
