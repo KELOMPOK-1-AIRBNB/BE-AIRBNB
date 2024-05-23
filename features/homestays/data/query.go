@@ -208,6 +208,9 @@ func (p *homestayQuery) GetMyHomestay(id uint) ([]homestay.Core, error) {
 			Address:      v.Address,
 			Description:  v.Description,
 			CostPerNight: v.PricePerNight,
+			Images1:      v.Images1,
+			Images2:      v.Images2,
+			Images3:      v.Images3,
 		})
 	}
 
