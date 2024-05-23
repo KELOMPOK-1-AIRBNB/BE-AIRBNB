@@ -328,6 +328,126 @@
                 }
             }
         },
+        "/users/upgrade":{
+            "post":{
+                "security": [
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "tags": ["users"],
+                "summary": "make a host",
+                "description": "make a host with create homestays for rent",
+                "requestBody":{
+                    "required": true,
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schemas/CreateHomestay"
+                            },
+                            "example":{
+                                "homestayName":"puncak dieng",
+                                "address":"Bandung",
+                                "description":"1 queen size bed, 1 toilet, TV, wifi, etc",
+                                "pricePerNight":145000,
+                                "images1":"url images1",
+                                "images2":"url images2",
+                                "images3":"url images3"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201":{
+                        "description": "success make a host and add homestay",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "allOf":[
+                                        {
+                                            "$ref": "#/components/responses/201"
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "message":{
+                                                    "type": "string",
+                                                    "example":"success add homestay. Congratulations! you're host now"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "$ref": "#/components/responses/400"
+                    },
+                    "500":{
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
+        "/users/changeprofilepicture":{
+            "post":{
+                "security": [
+                    {
+                        "JWTAuth":[]
+                    }
+                ],
+                "tags": ["users"],
+                "summary": "Upload profile picture",
+                "description": "Endpoint for upload user's profile picture",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "profilePhoto": {
+                                    "type": "string",
+                                    "format": "binary",
+                                    "description": "The profile picture file to be uploaded"
+                                }
+                            },
+                            "required": ["profilePicture"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "success upload profile picture",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Profile picture uploaded successfully"
+                                        },
+                                        "photoURL": {
+                                            "type": "string",
+                                            "example": "https://res.cloudinary.com/dikdesfng/image/upload/v1245564784/go-cloudinary/alfdbsaufpad.png"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "$ref": "#/components/responses/400"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
         "/homestays":{
             "get":{
                 "security": [
@@ -550,10 +670,23 @@
                                 "homestayName":"puncak dieng",
                                 "address":"Bandung",
                                 "description":"1 queen size bed, 1 toilet, TV, wifi, etc",
-                                "pricePerNight":145000,
-                                "images1":"url images1",
-                                "images2":"url images2",
-                                "images3":"url images3"
+                                "pricePerNight":145000
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "photos": {
+                                        "type": "array",
+                                        "items":{
+                                            "type": "string",
+                                            "format": "binary"
+                                        },
+                                        "description": "The photos file to be uploaded (max.3 photos)"
+                                    }
+                                },
+                                "required": ["homestayPhotos"]
                             }
                         }
                     }
@@ -679,10 +812,23 @@
                                 "homestayName":"bromo cottage",
                                 "address":"lumajang",
                                 "description":"1 king size bed, 2 toilet, TV, wifi, etc",
-                                "pricePerNight":375000,
-                                "images1":"url images1",
-                                "images2":"url images2",
-                                "images3":"url images3"
+                                "pricePerNight":375000                                
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "photos": {
+                                        "type": "array",
+                                        "items":{
+                                            "type": "string",
+                                            "format": "binary"
+                                        },
+                                        "description": "The photos file to be uploaded (max.3 photos)"
+                                    }
+                                },
+                                "required": ["homestayPhotos"]
                             }
                         }
                     }
@@ -1183,16 +1329,7 @@
                     },
                     "pricePerNight":{
                         "type": "integer"
-                    },
-                    "images1":{
-                        "type": "string"
-                    },
-                    "images2":{
-                        "type": "string"
-                    },
-                    "images3":{
-                        "type": "string"
-                    }
+                    }                    
                 }   
             },
             "reservationFeature":{
