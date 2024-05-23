@@ -17,4 +17,7 @@ type HomestayResponseById struct {
 	Address       string
 	Description   string
 	PricePerNight int
+	Images1       string
+	Images2       string
+	Images3       string
 }
