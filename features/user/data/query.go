@@ -21,12 +21,13 @@ func (u *userQuery) Insert(input user.Core) error {
 	var userGorm User
 
 	userGorm = User{
-		Model:       gorm.Model{},
-		Name:        input.Name,
-		Email:       input.Email,
-		Password:    input.Password,
-		PhoneNumber: input.Phone,
-		Role:        "user",
+		Model:          gorm.Model{},
+		Name:           input.Name,
+		Email:          input.Email,
+		Password:       input.Password,
+		PhoneNumber:    input.Phone,
+		ProfilePicture: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+		Role:           "user",
 	}
 	tx := u.db.Create(&userGorm)
 	if tx.Error != nil {
