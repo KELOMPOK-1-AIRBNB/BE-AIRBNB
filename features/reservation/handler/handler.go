@@ -90,7 +90,7 @@ func (r *ReservationHandler) CheckAvailability(c echo.Context) error {
 
 	errCheck := r.ReservationService.CheckAvailability(requestCore)
 	if errCheck != nil {
-		return c.JSON(http.StatusInternalServerError, responses.WebJSONResponse("success check availability: ", "not available"))
+		return c.JSON(http.StatusOK, responses.WebJSONResponse("success check availability: ", "not available"))
 	}
 
 	var response = AvailableResponse{
