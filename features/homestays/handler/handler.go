@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/utils/upload"
 	"net/http"
 	"strconv"
 
@@ -31,14 +32,37 @@ func (h *HomestayHandler) CreateHomestay(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("error bind data: "+errBind.Error(), nil))
 	}
 
+	imageFiles := []string{"images1", "images2", "images3"}
+	uploadUrls := make([]string, len(imageFiles))
+
+	for i, image := range imageFiles {
+		formHeader, err := c.FormFile(image)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("error formheader: "+err.Error(), nil))
+		}
+
+		formFile, err := formHeader.Open()
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("error formfile: "+err.Error(), nil))
+		}
+		defer formFile.Close()
+
+		uploadUrl, err := upload.ImageUploadHelper(formFile)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("error upload: "+err.Error(), nil))
+		}
+
+		uploadUrls[i] = uploadUrl
+	}
+
 	requestCore := homestay.Core{
 		UserID:       uint(idToken),
 		HomestayName: newRequest.HomestayName,
 		Description:  newRequest.Description,
 		Address:      newRequest.Address,
-		Images1:      newRequest.Images1,
-		Images2:      newRequest.Images2,
-		Images3:      newRequest.Images3,
+		Images1:      uploadUrls[0],
+		Images2:      uploadUrls[1],
+		Images3:      uploadUrls[2],
 		CostPerNight: newRequest.PricePerNight,
 	}
 
@@ -103,6 +127,10 @@ func (h *HomestayHandler) GetMyHomestay(c echo.Context) error {
 			HomestayName:  v.HomestayName,
 			Address:       v.Address,
 			PricePerNight: v.CostPerNight,
+			Description:   v.Description,
+			Images1:       v.Images1,
+			Images2:       v.Images2,
+			Images3:       v.Images3,
 		})
 	}
 	return c.JSON(http.StatusOK, responses.WebJSONResponse("success get all your homestay", allMyHomestay))
@@ -147,13 +175,37 @@ func (h *HomestayHandler) UpdateHomestay(c echo.Context) error {
 	if errBind != nil {
 		return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("error bind data: "+errBind.Error(), nil))
 	}
+
+	imageFiles := []string{"images1", "images2", "images3"}
+	uploadUrls := make([]string, len(imageFiles))
+
+	for i, image := range imageFiles {
+		formHeader, err := c.FormFile(image)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("error : ", "You need to fill images1-images2-images3 field"))
+		}
+
+		formFile, err := formHeader.Open()
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("error formfile: "+err.Error(), nil))
+		}
+		defer formFile.Close()
+
+		uploadUrl, err := upload.ImageUploadHelper(formFile)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("error upload: "+err.Error(), nil))
+		}
+
+		uploadUrls[i] = uploadUrl
+	}
+
 	updateCore := homestay.Core{
 		HomestayName: updateRequest.HomestayName,
 		Description:  updateRequest.Description,
 		Address:      updateRequest.Address,
-		Images1:      updateRequest.Images1,
-		Images2:      updateRequest.Images2,
-		Images3:      updateRequest.Images3,
+		Images1:      uploadUrls[0],
+		Images2:      uploadUrls[1],
+		Images3:      uploadUrls[2],
 		CostPerNight: updateRequest.PricePerNight,
 	}
 

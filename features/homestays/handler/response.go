@@ -5,6 +5,10 @@ type HomestayResponse struct {
 	HomestayName  string
 	Address       string
 	PricePerNight int
+	Description   string
+	Images1       string
+	Images2       string
+	Images3       string
 }
 
 type HomestayResponseById struct {
