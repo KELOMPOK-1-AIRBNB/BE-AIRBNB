@@ -12,10 +12,10 @@
             "name": "APACHE 2.0"
         }
     },
-    "servers": [
+    "servers": [        
         {
-            "description": "SwaggerHub API Auto Mocking",
-            "url": "https://virtserver.swaggerhub.com/ezabintangramadhan/Airbnb-API/1.0.0"
+            "description": "server for airnb project",
+            "url": "https://auf.my.id"
         }
     ],
     "paths": {
@@ -33,19 +33,19 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "username": {
+                                    "email": {
                                         "type": "string",
-                                        "description": "Username user",
-                                        "example": "user123"
+                                        "description": "email user",
+                                        "example": "tukimin@mail.com"
                                     },
                                     "password": {
                                         "type": "string",
                                         "description": "passwword user",
-                                        "example": "passwword123"
+                                        "example": "tukimin123"
                                     }
                                 },
                                 "required": [
-                                    "username",
+                                    "email",
                                     "passwword"
                                 ]
                             }
@@ -140,15 +140,28 @@
                                 "name":"tukimin",
                                 "email":"tukimin@mail.com",
                                 "password":"tukimin123",
-                                "phone":"08220321",
-                                "role":"user"
+                                "phone_number":"08220321"                                
                             }
                         }
                     }
                 },
                 "responses": {
                     "201":{
-                       "$ref": "#/components/responses/201"
+                        "description": "successful register",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref": "#/components/responses/201"
+                                },
+                                "examples":{
+                                    "successful_update":{
+                                        "value":{
+                                            "message":"register successful"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     "400":{
                         "$ref": "#/components/responses/400"
@@ -229,7 +242,7 @@
                                         "name":"Eza",
                                         "email":"eza@mail.com",
                                         "password":"eza123",
-                                        "phone":"0822232"
+                                        "phone_number":"0822232"
                                     }
                                 }
                             }
@@ -1287,10 +1300,7 @@
                     "password":{
                         "type": "string"
                     },
-                    "phone":{
-                        "type": "string"
-                    },
-                    "role":{
+                    "phone_number":{
                         "type": "string"
                     }
                 }
@@ -1318,7 +1328,7 @@
                     "password": {
                         "type": "string"
                     },
-                    "phone":{
+                    "phone_number":{
                         "type": "string"
                     }
                 }

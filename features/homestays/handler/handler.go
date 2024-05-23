@@ -76,8 +76,7 @@ func (h *HomestayHandler) CreateHomestay(c echo.Context) error {
 }
 
 func (h *HomestayHandler) GetAllForUser(c echo.Context) error {
-	idToken := middlewares.ExtractTokenUserId(c)
-	result, err := h.homestayService.GetAllForUser(uint(idToken))
+	result, err := h.homestayService.GetAllForUser()
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, responses.WebJSONResponse("error get all homestay: "+err.Error(), nil))
 	}
