@@ -23,7 +23,7 @@ func New(ud user.DataInterface, hash encrypts.HashInterface) user.ServiceInterfa
 func (u *userService) UpdateProfilePicture(id uint, input user.Core) error {
 	result, err := u.userData.SelectProfileById(id)
 	if err != nil {
-		return err
+		return errors.New("user not found. you must login first")
 	}
 
 	if result.DeleteAt.IsZero() {
@@ -63,7 +63,7 @@ func (u *userService) GetProfileUser(id uint) (*user.Core, error) {
 func (u *userService) Delete(id uint) error {
 	result, err := u.userData.SelectProfileById(id)
 	if err != nil {
-		return err
+		return errors.New("user not found. you must login first")
 	}
 	if result.DeleteAt.IsZero() {
 		return u.userData.Delete(id)
@@ -76,7 +76,7 @@ func (u *userService) Delete(id uint) error {
 func (u *userService) Update(id uint, input user.Core) error {
 	result, err := u.userData.SelectProfileById(id)
 	if err != nil {
-		return err
+		return errors.New("user not found. you must login first")
 	}
 
 	result2, errHash := u.hashService.HashPassword(input.Password)
