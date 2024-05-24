@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+
 	homestay "github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/homestays"
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/reservation"
 	"github.com/KELOMPOK-1-AIRBNB/BE-AIRBNB/features/user"
@@ -59,7 +60,6 @@ func (r *reservationService) CreateReservation(input reservation.Core) error {
 
 	input.TotalPrice = int(input.EndDate.Sub(input.StartDate).Hours()/24) * int(homestay.CostPerNight)
 
-	// set status
 	input.Status = "success"
 
 	return r.reservationData.CreateReservation(input)

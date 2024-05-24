@@ -209,3 +209,32 @@ func TestUpdate(t *testing.T) {
 		repoUserMock.AssertExpectations(t)
 	})
 }
+
+// func TestLogin(t *testing.T) {
+// 	t.Run("success login", func(t *testing.T) {
+// 		repoUserMock := new(mocks.UserData)
+// 		hashMock := new(mocks.Hash)
+
+// 		email := "tukimin@mail.com"
+// 		password := "tukimin123"
+// 		hashedPassword := "hashed_tukimin123"
+// 		token := "valid_token"
+
+// 		userData := &user.Core{
+// 			ID:       1,
+// 			Password: hashedPassword,
+// 		}
+
+// 		repoUserMock.On("Login", email).Return(userData, nil)
+// 		hashMock.On("CheckPasswordHash", hashedPassword, password).Return(true)
+
+// 		srv := New(repoUserMock, hashMock)
+// 		data, generatedToken, err := srv.Login(email, password)
+
+// 		assert.NoError(t, err)
+// 		assert.Equal(t, userData, data)
+// 		assert.Equal(t, token, generatedToken)
+// 		repoUserMock.AssertExpectations(t)
+// 		hashMock.AssertExpectations(t)
+// 	})
+// }
