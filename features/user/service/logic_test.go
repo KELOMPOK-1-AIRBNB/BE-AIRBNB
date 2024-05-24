@@ -210,31 +210,72 @@ func TestUpdate(t *testing.T) {
 	})
 }
 
-// func TestLogin(t *testing.T) {
-// 	t.Run("success login", func(t *testing.T) {
-// 		repoUserMock := new(mocks.UserData)
-// 		hashMock := new(mocks.Hash)
+func TestLogin(t *testing.T) {
+	t.Run("success login", func(t *testing.T) {
+		repoUserMock := new(mocks.UserData)
+		hashMock := new(mocks.Hash)
 
-// 		email := "tukimin@mail.com"
-// 		password := "tukimin123"
-// 		hashedPassword := "hashed_tukimin123"
-// 		token := "valid_token"
+		email := "tukimin@mail.com"
+		password := "tukimin123"
+		hashedPassword := "hashed_tukimin123"
 
-// 		userData := &user.Core{
-// 			ID:       1,
-// 			Password: hashedPassword,
-// 		}
+		userData := &user.Core{
+			ID:       1,
+			Password: hashedPassword,
+		}
 
-// 		repoUserMock.On("Login", email).Return(userData, nil)
-// 		hashMock.On("CheckPasswordHash", hashedPassword, password).Return(true)
+		repoUserMock.On("Login", email).Return(userData, nil)
+		hashMock.On("CheckPasswordHash", hashedPassword, password).Return(true)
 
-// 		srv := New(repoUserMock, hashMock)
-// 		data, generatedToken, err := srv.Login(email, password)
+		srv := New(repoUserMock, hashMock)
+		data, generatedToken, err := srv.Login(email, password)
 
-// 		assert.NoError(t, err)
-// 		assert.Equal(t, userData, data)
-// 		assert.Equal(t, token, generatedToken)
-// 		repoUserMock.AssertExpectations(t)
-// 		hashMock.AssertExpectations(t)
-// 	})
-// }
+		assert.NoError(t, err)
+		assert.Equal(t, userData, data)
+		assert.NotEmpty(t, generatedToken)
+		repoUserMock.AssertExpectations(t)
+		hashMock.AssertExpectations(t)
+	})
+
+	t.Run("login failed due to invalid email", func(t *testing.T) {
+		repoUserMock := new(mocks.UserData)
+
+		email := "tukimin1@mail.com"
+		password := "tukimin123"
+
+		repoUserMock.On("Login", email).Return(nil, errors.New("invalid email"))
+
+		srv := New(repoUserMock, nil)
+		_, _, err := srv.Login(email, password)
+
+		assert.Error(t, err)
+		assert.EqualError(t, err, "invalid email")
+		repoUserMock.AssertExpectations(t)
+	})
+
+	t.Run("login failed due to invalid password", func(t *testing.T) {
+		repoUserMock := new(mocks.UserData)
+		hashMock := new(mocks.Hash)
+
+		email := "tukimin@mail.com"
+		password := "tukimin1234"
+		hashedPassword := "hashed_tukimin1234	"
+
+		userData := &user.Core{
+			ID:       1,
+			Password: hashedPassword,
+		}
+
+		repoUserMock.On("Login", email).Return(userData, nil)
+		hashMock.On("CheckPasswordHash", hashedPassword, password).Return(false)
+
+		srv := New(repoUserMock, hashMock)
+		data, _, err := srv.Login(email, password)
+
+		assert.Error(t, err)
+		assert.EqualError(t, err, "[validation] password tidak sesuai")
+		assert.Nil(t, data)
+		repoUserMock.AssertExpectations(t)
+		hashMock.AssertExpectations(t)
+	})
+}
