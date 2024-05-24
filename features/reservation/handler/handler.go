@@ -79,8 +79,21 @@ func (r *ReservationHandler) CheckAvailability(c echo.Context) error {
 	}
 
 	var dateLayout = "2006-01-02"
-	startDate, _ := time.Parse(dateLayout, newRequest.StartDate)
-	endDate, _ := time.Parse(dateLayout, newRequest.EndDate)
+	startDate, errStart := time.Parse(dateLayout, newRequest.StartDate)
+	endDate, errEnd := time.Parse(dateLayout, newRequest.EndDate)
+
+	if errStart != nil || errEnd != nil {
+		return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("invalid format date", nil))
+	}
+
+	now := time.Now().Truncate(24 * time.Hour)
+	if startDate.Before(now) || endDate.Before(now) {
+		return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("date must be today or in the future", nil))
+	}
+
+	if startDate.After(endDate) {
+		return c.JSON(http.StatusBadRequest, responses.WebJSONResponse("start date must be before end date", nil))
+	}
 
 	requestCore := reservation.Core{
 		HomestayID: newRequest.HomestayID,
