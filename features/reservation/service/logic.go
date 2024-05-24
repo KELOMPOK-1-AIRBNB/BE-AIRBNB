@@ -23,7 +23,7 @@ func New(rd reservation.DataInterface, ud user.DataInterface, hd homestay.DataIn
 }
 
 func (r *reservationService) CheckAvailability(input reservation.Core) error {
-	if input.HomestayID == 0 || input.UserID == 0 || input.StartDate.IsZero() || input.EndDate.IsZero() {
+	if input.HomestayID == 0 || input.StartDate.IsZero() || input.EndDate.IsZero() {
 		return errors.New("invalid input")
 	}
 
