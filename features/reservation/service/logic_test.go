@@ -132,6 +132,7 @@ func TestCreateReservation(t *testing.T) {
 
 		assert.Error(t, err)
 		assert.EqualError(t, err, "invalid input")
+		repoReservationMock.AssertExpectations(t)
 	})
 
 	t.Run("create reservation failed due to user not found", func(t *testing.T) {
