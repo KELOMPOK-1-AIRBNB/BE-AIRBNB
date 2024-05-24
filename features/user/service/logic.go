@@ -111,11 +111,3 @@ func (u *userService) Login(email string, password string) (data *user.Core, tok
 	}
 	return data, token, nil
 }
-
-// // UpdateRole implements user.ServiceInterface.
-// func (u *userService) UpdateRole(id uint, input user.Core) error {
-// 	if id <= 0 {
-// 		return errors.New("id not valid")
-// 	}
-// 	return u.userData.UpdateRole(id, input)
-// }

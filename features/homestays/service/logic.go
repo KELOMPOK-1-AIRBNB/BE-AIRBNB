@@ -21,15 +21,15 @@ func New(hd homestay.DataInterface, ud user.DataInterface) homestay.ServiceInter
 
 // Create implements homestay.ServiceInterface.
 func (p *homestayService) Create(input homestay.Core) error {
+	if input.HomestayName == "" || input.Address == "" || input.CostPerNight == 0 || input.Description == "" || input.Images1 == "" {
+		return errors.New("all list must be filled")
+	}
 	result, err := p.userData.SelectProfileById(input.UserID)
 	if err != nil {
 		return err
 	}
 	if result.Role != "host" {
 		return errors.New("you're not host. make a host first")
-	}
-	if input.HomestayName == "" || input.Address == "" || input.CostPerNight == 0 || input.Description == "" || input.Images1 == "" {
-		return errors.New("all list must be filled")
 	}
 
 	err2 := p.homestayData.Insert(input)
@@ -70,9 +70,13 @@ func (p *homestayService) Update(id uint, idUser uint, input homestay.Core) erro
 	if result.Role != "host" {
 		return errors.New("you're not host. make a host first")
 	}
+
 	result2, err2 := p.homestayData.GetUserByHomestayId(id)
 	if err2 != nil {
 		return err2
+	}
+	if (result2 == homestay.Core{}) {
+		return errors.New("homestay not found")
 	}
 	if result2.UserID != idUser {
 		return errors.New("homestay id is not yours")
@@ -127,18 +131,3 @@ func (p *homestayService) MakeHost(id uint, input homestay.Core) error {
 
 	return p.homestayData.MakeHost(id, input)
 }
-
-// result, err := p.userData.SelectProfileById(idUser)
-// if err != nil {
-// 	return homestay.Core{}, err
-// }
-// if result.Role != "host" {
-// 	return homestay.Core{}, errors.New("you're not host. make a host first")
-// }
-// result2, err2 := p.homestayData.GetUserByHomestayId(id)
-// if err2 != nil {
-// 	return homestay.Core{}, err2
-// }
-// if result2.UserID != idUser {
-// 	return homestay.Core{}, errors.New("homestay id is not yours")
-// }
